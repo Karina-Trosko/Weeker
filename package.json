@@ -1,0 +1,45 @@
+{
+  "name": "AwesomeProject1",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "lint": "eslint app/",
+    "lint:fix": "eslint app/ --fix"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "6.2.0",
+    "color": "3.0.0",
+    "hoist-non-react-statics": "3.0.1",
+    "moment": "2.18.1",
+    "prop-types": "^15.7.2",
+    "react": "16.8.3",
+    "react-native": "0.59.1",
+    "react-native-dropdownalert": "3.1.2",
+    "react-native-extended-stylesheet": "0.8.0",
+    "react-native-vector-icons": "^6.6.0",
+    "react-navigation": "2.5.5",
+    "react-redux": "5.0.4",
+    "redux": "4.0.0",
+    "redux-logger": "3.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.8.0",
+    "@babel/runtime": "7.8.0",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "24.9.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "jest": "24.9.0",
+    "metro-react-native-babel-preset": "0.56.4",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
