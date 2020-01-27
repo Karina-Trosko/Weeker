@@ -16,9 +16,11 @@ export const buttonStyle = EStyleSheet.create({
     button: {
         padding: 10,
         margin: 10,
+        flexDirection: 'row',
     },
     text: {
-        fontSize: 18,
-        fontWeight: '300',
+        fontSize: 24,
+        fontWeight: '600',
+        marginHorizontal: 10,
     },
 });

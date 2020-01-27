@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 
 import { listStyle } from '../styles';
+import RepeatIcon from '../assets/icons/Repeat';
 
 const ListItem = ({ data, onPress }) => {
     const { task, important, repeat } = data;
     return (
-      <View style={listStyle.listItemStyle}>
-        <TouchableOpacity onPress={onPress}>
-          <Text style={listStyle.task}>{`${task} ${important} ${repeat}`}</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={onPress} style={listStyle.listItemStyle}>
+        {repeat ? <RepeatIcon color="red" size={35} repeat={repeat} /> : null}
+        <Text style={listStyle.task}>{`${task} ${important} ${repeat}`}</Text>
+      </TouchableOpacity>
     );
 };
 

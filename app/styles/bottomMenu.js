@@ -4,8 +4,10 @@ const styles = EStyleSheet.create({
     bottomMenu: {
         justifyContent: 'center',
         flexDirection: 'row',
-        height: 50,
-        backgroundColor: 'red',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
 });
 

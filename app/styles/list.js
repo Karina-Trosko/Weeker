@@ -15,6 +15,10 @@ const styles = EStyleSheet.create({
         fontWeight: '600',
         flexWrap: 'wrap',
         marginHorizontal: 5,
+        flex: 1,
+    },
+    list: {
+        marginBottom: 60,
     },
 });
 
