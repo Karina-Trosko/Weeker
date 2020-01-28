@@ -20,6 +20,7 @@ const styles = EStyleSheet.create({
     list: {
         marginBottom: 60,
     },
+
 });
 
 export default styles;

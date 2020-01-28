@@ -71,7 +71,9 @@ class Home extends Component {
     }
 
 handelEditPress = () => {
-
+    console.log('tyt');
+    const { navigation } = this.props;
+    navigation.navigate('EditList');
 };
 
 handleAllPress = () => {
@@ -102,6 +104,7 @@ render() {
 Home.propTypes = {
     setupData: PropTypes.func,
     data: PropTypes.array,
+    navigation: PropTypes.object,
 };
 
 const mapDispatchToProps = (dispatch) => ({

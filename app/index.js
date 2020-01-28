@@ -1,8 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import Home from './screens/Home';
 import store from './config/store';
+import Navigator from './config/routes';
 
 EStyleSheet.build({
 
@@ -10,6 +10,6 @@ EStyleSheet.build({
 
 export default () => (
   <Provider store={store}>
-    <Home />
+    <Navigator />
   </Provider>
 );

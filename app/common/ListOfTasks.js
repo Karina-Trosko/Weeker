@@ -5,16 +5,15 @@ import { FlatList, ScrollView } from 'react-native';
 
 import ListItem from './ListItem';
 import { setupCurrentData } from '../actions/data';
-import { listStyle } from '../styles';
 
 class ListOfTasks extends Component {
     handleOnPress = () => {
     };
 
     render() {
-        const { data } = this.props;
+        const { data, styles = { marginBottom: 60 } } = this.props;
         return (
-          <ScrollView style={listStyle.list}>
+          <ScrollView style={styles}>
             <FlatList
               data={data || []}
               renderItem={({ item }) => (
@@ -29,6 +28,7 @@ class ListOfTasks extends Component {
 ListOfTasks.propTypes = {
     data: PropTypes.array,
     setupData: PropTypes.func,
+    styles: PropTypes.object,
 };
 
 const mapDispatchToProps = (dispatch) => ({
