@@ -4,6 +4,8 @@ import listViewSwitchStyle from './listViewSwitch';
 import { switchButtonStyle, buttonStyle } from './buttons';
 import titleStyle from './title';
 import repeatIconStyle from './icons';
+import checkboxStyle from './checkbox';
+import newTaskStyle from './newTask';
 
 export {
     listStyle,
@@ -13,4 +15,6 @@ export {
     buttonStyle,
     titleStyle,
     repeatIconStyle,
+    checkboxStyle,
+    newTaskStyle,
 };

@@ -4,14 +4,15 @@ import { View } from 'react-native';
 
 import { bottomMenuStyle } from '../styles';
 
-const BottomMenu = ({ children }) => (
-  <View style={bottomMenuStyle.bottomMenu}>
+const BottomMenu = ({ children, otherStyle }) => (
+  <View style={[bottomMenuStyle.bottomMenu, otherStyle]}>
     {children}
   </View>
 );
 
 BottomMenu.propTypes = {
     children: PropTypes.any,
+    otherStyle: PropTypes.object,
 };
 
 export default BottomMenu;

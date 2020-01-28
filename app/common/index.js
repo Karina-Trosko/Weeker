@@ -4,6 +4,8 @@ import BottomMenu from './BottomMenu';
 import ListViewSwitch from './ListViewSwitch';
 import Title from './Title';
 import Button from './Button';
+import Input from './Input';
+import Checkbox from './Checkbox';
 
 export {
     ListItem,
@@ -12,4 +14,6 @@ export {
     ListViewSwitch,
     Title,
     Button,
+    Input,
+    Checkbox,
 };
