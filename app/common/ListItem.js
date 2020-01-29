@@ -9,7 +9,7 @@ const ListItem = ({ data, onPress }) => {
     const { task, important, repeat } = data;
     return (
       <TouchableOpacity onPress={onPress} style={listStyle.listItemStyle}>
-        {repeat ? <RepeatIcon color="red" size={35} repeat={repeat} /> : null}
+        {(repeat && (Number(repeat) > 1)) ? <RepeatIcon color="#FA8072" size={35} repeat={repeat} /> : null}
         <Text style={listStyle.task}>{`${task} ${important} ${repeat}`}</Text>
       </TouchableOpacity>
     );

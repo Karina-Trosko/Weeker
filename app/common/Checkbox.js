@@ -8,9 +8,14 @@ import { checkboxStyle } from '../styles';
 const Checkbox = ({
     onPress,
     selected,
-    backgroundColor = 'red',
+    backgroundColor,
+    underlayColor,
 }) => (
-  <TouchableHighlight onPress={onPress} style={[checkboxStyle.container, { backgroundColor }]}>
+  <TouchableHighlight
+    onPress={onPress}
+    style={[checkboxStyle.container, { backgroundColor }]}
+    underlayColor={underlayColor}
+      >
     <View>
       {selected ? <Icon name="check" color="white" size={30} resizeMode="contain" style={checkboxStyle.mark} /> : null}
     </View>
@@ -21,6 +26,7 @@ Checkbox.propTypes = {
     onPress: PropTypes.func,
     selected: PropTypes.bool,
     backgroundColor: PropTypes.string,
+    underlayColor: PropTypes.string,
 };
 
 export default Checkbox;

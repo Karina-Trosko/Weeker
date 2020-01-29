@@ -1,3 +1,5 @@
+import containerStyle from './container';
+import { colors, indents } from './variables';
 import listStyle from './list';
 import bottomMenuStyle from './bottomMenu';
 import listViewSwitchStyle from './listViewSwitch';
@@ -17,4 +19,7 @@ export {
     repeatIconStyle,
     checkboxStyle,
     newTaskStyle,
+    containerStyle,
+    colors,
+    indents,
 };

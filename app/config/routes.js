@@ -6,9 +6,15 @@ import EditList from '../screens/EditList';
 const HomeStack = StackNavigator({
     Home: {
         screen: Home,
+        navigationOptions: {
+            header: () => null,
+        },
     },
     EditList: {
         screen: EditList,
+        navigationOptions: {
+            header: () => null,
+        },
     },
 });
 

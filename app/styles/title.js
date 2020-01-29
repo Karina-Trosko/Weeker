@@ -4,10 +4,12 @@ const styles = EStyleSheet.create({
     container: {
         paddingVertical: 20,
         paddingHorizontal: 15,
+        backgroundColor: '$primaryWhite',
     },
     title: {
         fontSize: 30,
         fontWeight: '600',
+        color: '$primaryColor',
     },
 
 });

@@ -5,13 +5,14 @@ import { FlatList, ScrollView } from 'react-native';
 
 import ListItem from './ListItem';
 import { setupCurrentData } from '../actions/data';
+import { indents } from '../styles';
 
 class ListOfTasks extends Component {
     handleOnPress = () => {
     };
 
     render() {
-        const { data, styles = { marginBottom: 60 } } = this.props;
+        const { data, styles = { marginBottom: indents.marginBottomList } } = this.props;
         return (
           <ScrollView style={styles}>
             <FlatList

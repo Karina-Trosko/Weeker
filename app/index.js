@@ -5,7 +5,10 @@ import store from './config/store';
 import Navigator from './config/routes';
 
 EStyleSheet.build({
-
+    $primaryColor: '#20B2AA',
+    $primaryDark: '#008B8B',
+    $primaryWhite: '#FFFFFF',
+    $primaryAccentColor: '#FA8072',
 });
 
 export default () => (

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {
@@ -12,12 +13,13 @@ import {
     Button,
 } from '../common';
 import { setupCurrentData } from '../actions/data';
+import { containerStyle, colors } from '../styles';
 
 const InitData = [{
     id: '1',
     task: 'task',
     repeat: '',
-    important: true,
+    important: false,
 }, {
     id: '2',
     task: 'task2',
@@ -27,7 +29,7 @@ const InitData = [{
     id: '3',
     task: 'task3',
     repeat: '',
-    important: true,
+    important: false,
 },
 {
     id: '4',
@@ -77,21 +79,36 @@ handelEditPress = () => {
 };
 
 handleAllPress = () => {
+    const { setupData } = this.props;
+    setupData(InitData);
+};
 
+handleImportantPress = () => {
+    const { setupData } = this.props;
+    setupData(InitData.filter((item) => (item.important)));
+};
+
+handleOtherPress = () => {
+    const { setupData } = this.props;
+    setupData(InitData.filter((item) => (!item.important)));
 };
 
 render() {
     const { data } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={containerStyle.container}>
         <Title title="Tasks for this week: " />
-        <ListViewSwitch />
+        <ListViewSwitch
+          onPressAll={this.handleAllPress}
+          onPressImportant={this.handleImportantPress}
+          onPressOther={this.handleOtherPress}
+        />
         <ListOfTasks data={data} />
         <BottomMenu>
           <Button
             text="Edit list"
             icon={
-              <Icon name="fountain-pen" color="red" size={30} resizeMode="contain" />
+              <Icon name="fountain-pen" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                 }
             onPress={this.handelEditPress}
           />

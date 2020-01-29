@@ -8,7 +8,7 @@ import {
     Checkbox,
     Button,
 } from '../common';
-import { newTaskStyle } from '../styles';
+import { newTaskStyle, colors } from '../styles';
 
 class NewTask extends Component {
     repeats = ['1', '2', '3', '4', '5', '6', '7'];
@@ -49,11 +49,21 @@ class NewTask extends Component {
             <Input placeholder="Enter task..." onChangeText={this.handleTextChange} />
             <View style={newTaskStyle.optionContainer}>
               <View style={newTaskStyle.option}>
-                <Checkbox selected={important} onPress={this.handleImportantPress} />
+                <Checkbox
+                  selected={important}
+                  onPress={this.handleImportantPress}
+                  backgroundColor={colors.$primaryAccentColorVar}
+                  underlayColor={colors.$primaryColorVar}
+                />
                 <Text style={newTaskStyle.text}>important</Text>
               </View>
               <View style={newTaskStyle.option}>
-                <Checkbox selected={addToElected} onPress={this.handleAddToElectedPress} />
+                <Checkbox
+                  selected={addToElected}
+                  onPress={this.handleAddToElectedPress}
+                  backgroundColor={colors.$primaryAccentColorVar}
+                  underlayColor={colors.$primaryColorVar}
+                />
                 <Text style={newTaskStyle.text}>add to elected</Text>
               </View>
               <View style={newTaskStyle.option}>
@@ -83,19 +93,3 @@ class NewTask extends Component {
 }
 
 export default NewTask;
-/*
-<Picker
-              style={{ width: 200 }}
-              selectedValue={this.state.repeat}
-              onValueChange={(value) => this.setState({ repeat: value })}
-            >
-              <Picker.Item label="1" value="1" />
-              <Picker.Item label="2" value="2" />
-              <Picker.Item label="3" value="3" />
-              <Picker.Item label="4" value="4" />
-              <Picker.Item label="5" value="5" />
-              <Picker.Item label="6" value="6" />
-              <Picker.Item label="7" value="7" />
-
-            </Picker>
-*/

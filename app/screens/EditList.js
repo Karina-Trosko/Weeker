@@ -12,7 +12,7 @@ import {
 } from '../common';
 import { setupCurrentData } from '../actions/data';
 import { NewTask } from '../combo';
-import { listStyle } from '../styles';
+import { containerStyle, colors, indents } from '../styles';
 
 class EditList extends Component {
     constructor(props) {
@@ -41,29 +41,29 @@ render() {
     const { data } = this.props;
     const { addPress } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={containerStyle.container}>
         <ListViewSwitch />
-        <ListOfTasks data={data} styles={addPress ? { marginBottom: 10 } : { marginBottom: 60 }} />
+        <ListOfTasks data={data} styles={addPress ? { marginBottom: 10 } : { marginBottom: indents.marginBottomList }} />
         {addPress ? <NewTask /> : null}
-        <BottomMenu otherStyle={{ justifyContent: 'space-between' }}>
+        <BottomMenu otherStyle={{ justifyContent: 'space-around' }}>
           <Button
             icon={
-              <Icon name="arrow-left" color="red" size={30} resizeMode="contain" />
+              <Icon name="arrow-left" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                   }
             onPress={this.handelBackPress}
           />
           <Button
             icon={
-              <Icon name="plus" color="red" size={30} resizeMode="contain" />
+              <Icon name="plus" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                 }
             onPress={this.handleAddPress}
           />
           <Button icon={
-            <Icon name="trash-o" color="red" size={30} resizeMode="contain" />
+            <Icon name="trash-o" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                 }
           />
           <Button icon={
-            <Icon name="star" color="red" size={30} resizeMode="contain" />
+            <Icon name="star" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                 }
           />
         </BottomMenu>

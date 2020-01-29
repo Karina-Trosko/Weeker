@@ -9,6 +9,7 @@ export const switchButtonStyle = EStyleSheet.create({
         fontSize: 24,
         fontWeight: '600',
         alignSelf: 'center',
+        color: '$primaryColor',
     },
 });
 
@@ -17,10 +18,12 @@ export const buttonStyle = EStyleSheet.create({
         padding: 10,
         margin: 10,
         flexDirection: 'row',
+        backgroundColor: '$primaryColor',
     },
     text: {
         fontSize: 24,
         fontWeight: '600',
         marginHorizontal: 10,
+        color: '$primaryWhite',
     },
 });

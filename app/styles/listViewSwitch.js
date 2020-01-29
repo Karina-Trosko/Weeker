@@ -5,10 +5,11 @@ import { StyleSheet } from 'react-native';
 const styles = EStyleSheet.create({
     switch: {
         flexDirection: 'row',
+        backgroundColor: '$primaryWhite',
     },
     separator: {
         width: StyleSheet.hairlineWidth,
-        backgroundColor: 'black',
+        backgroundColor: '$primaryDark',
         height: '90%',
     },
 });

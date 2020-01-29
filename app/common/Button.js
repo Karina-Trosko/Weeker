@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text } from 'react-native';
-import { buttonStyle } from '../styles';
+import { buttonStyle, colors } from '../styles';
 
 const Button = ({
     text,
@@ -9,9 +9,24 @@ const Button = ({
     styles = buttonStyle,
     icon,
 }) => (
-  <TouchableOpacity onPress={onPress} style={styles.button}>
+  <TouchableOpacity
+    onPress={onPress}
+    style={
+    [styles.button, icon
+    ? { backgroundColor: null }
+    : null]
+}
+      // eslint-disable-next-line indent
+  >
     {icon}
-    <Text style={styles.text}>{text}</Text>
+    {text ? (
+      <Text style={[styles.text, icon
+    ? { color: colors.$primaryColorVar }
+    : null]}
+      >
+        {text}
+      </Text>
+) : null}
   </TouchableOpacity>
 );
 
