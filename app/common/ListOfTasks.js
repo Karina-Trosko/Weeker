@@ -6,12 +6,12 @@ import { FlatList, ScrollView } from 'react-native';
 import ListItem from './ListItem';
 import { setupCurrentTask } from '../actions/currentTask';
 import { indents } from '../styles';
-import { setupDeleteData } from '../actions/deleteData';
+import { setupCheckedData } from '../actions/checkedData';
 
 class ListOfTasks extends Component {
     constructor(props) {
         super(props);
-        props.setDeleteData([]);
+        props.setCheckedData([]);
     }
 
   handleOnPress = (task) => {
@@ -20,12 +20,12 @@ class ListOfTasks extends Component {
   };
 
 handleCheckboxPress = (item, selected) => {
-    const { setDeleteData, deleteData } = this.props;
+    const { setCheckedData, checkedData } = this.props;
     if (selected) {
-        deleteData.push(item);
-        setDeleteData(deleteData);
+        checkedData.push(item);
+        setCheckedData(checkedData);
     } else {
-        setDeleteData(deleteData.filter((el) => (el.id !== item.id)));
+        setCheckedData(checkedData.filter((el) => (el.id !== item.id)));
     }
 };
 
@@ -66,9 +66,9 @@ render() {
 
 ListOfTasks.propTypes = {
     data: PropTypes.array,
-    deleteData: PropTypes.array,
+    checkedData: PropTypes.array,
     setupTask: PropTypes.func,
-    setDeleteData: PropTypes.func,
+    setCheckedData: PropTypes.func,
     styles: PropTypes.object,
     OnPressTask: PropTypes.func,
     OnLongPressTask: PropTypes.func,
@@ -79,16 +79,16 @@ const mapDispatchToProps = (dispatch) => ({
     setupTask: (task) => {
         dispatch(setupCurrentTask(task));
     },
-    setDeleteData: (data) => {
-        dispatch(setupDeleteData(data));
+    setCheckedData: (data) => {
+        dispatch(setupCheckedData(data));
     },
 });
 
 const mapStateToProps = (state) => {
-    const { data, deleteData } = state.data;
+    const { data, checkedData } = state.data;
     return {
         data,
-        deleteData,
+        checkedData,
     };
 };
 

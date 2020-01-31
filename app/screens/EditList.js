@@ -17,7 +17,7 @@ import {
 } from '../common';
 import { setupCurrentData } from '../actions/data';
 import { setupCurrentTask } from '../actions/currentTask';
-import { setupDeleteData } from '../actions/deleteData';
+import { setupCheckedData } from '../actions/checkedData';
 import { NewTask } from '../combo';
 import { containerStyle, colors, indents } from '../styles';
 
@@ -70,23 +70,23 @@ handleTaskPress = () => {
     }
 };
 
-deleteTasks = () => {
-    const { setupData, data, deleteData } = this.props;
+checkedTasks = () => {
+    const { setupData, data, checkedData } = this.props;
     setupData(data.filter((item) => (
-        !deleteData.some((val) => (val.id === item.id))
+        !checkedData.some((val) => (val.id === item.id))
     )));
 };
 
 turnOffSelectMode = () => {
-    const { setDeleteData } = this.props;
+    const { setCheckedData } = this.props;
     this.setState({ selectMode: false });
-    setDeleteData([]);
+    setCheckedData([]);
 };
 
 handleDeletePress = () => {
     const { selectMode } = this.state;
-    const { deleteData } = this.props;
-    if (selectMode && deleteData.length) {
+    const { checkedData } = this.props;
+    if (selectMode && checkedData.length) {
         Alert.alert('Delete', 'Are you sure you want to delet this?', [
             {
                 text: 'Cancel',
@@ -96,12 +96,12 @@ handleDeletePress = () => {
             {
                 text: 'OK',
                 onPress: () => {
-                    this.deleteTasks();
+                    this.checkedTasks();
                     this.turnOffSelectMode();
                 },
             },
         ]);
-    } else if (!deleteData.length && selectMode) {
+    } else if (!checkedData.length && selectMode) {
         this.turnOffSelectMode();
     } else {
         this.setState({ selectMode: true });
@@ -165,9 +165,9 @@ render() {
 EditList.propTypes = {
     setupData: PropTypes.func,
     data: PropTypes.array,
-    deleteData: PropTypes.array,
+    checkedData: PropTypes.array,
     setupTask: PropTypes.func,
-    setDeleteData: PropTypes.func,
+    setCheckedData: PropTypes.func,
     navigation: PropTypes.object,
 };
 
@@ -178,16 +178,16 @@ const mapDispatchToProps = (dispatch) => ({
     setupTask: (task) => {
         dispatch(setupCurrentTask(task));
     },
-    setDeleteData: (data) => {
-        dispatch(setupDeleteData(data));
+    setCheckedData: (data) => {
+        dispatch(setupCheckedData(data));
     },
 });
 
 const mapStateToProps = (state) => {
-    const { data, deleteData } = state.data;
+    const { data, checkedData } = state.data;
     return {
         data,
-        deleteData,
+        checkedData,
     };
 };
 

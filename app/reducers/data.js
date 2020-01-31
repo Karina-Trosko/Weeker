@@ -1,5 +1,5 @@
 import { SETUP_DATA } from '../actions/data';
-import { SETUP_DELETE_DATA } from '../actions/deleteData';
+import { SETUP_CHECKED_DATA } from '../actions/checkedData';
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
@@ -8,10 +8,10 @@ const reducer = (state = {}, action) => {
             ...state,
             data: action.data,
         };
-    case SETUP_DELETE_DATA:
+    case SETUP_CHECKED_DATA:
         return {
             ...state,
-            deleteData: action.deleteData,
+            checkedData: action.checkedData,
         };
     default: return state;
     }

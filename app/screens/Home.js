@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View, Alert } from 'react-native';
+import Icon from 'react-native-vector-icons/Octicons';
 
 import {
     ListOfTasks,
@@ -13,6 +13,7 @@ import {
 } from '../common';
 import { setupCurrentData } from '../actions/data';
 import { containerStyle, colors } from '../styles';
+import { setupCheckedData } from '../actions/checkedData';
 
 const InitData = [{
     id: '1',
@@ -68,12 +69,63 @@ class Home extends Component {
     constructor(props) {
         super(props);
         const { setupData } = this.props;
+        this.state = {
+            selectMode: false,
+        };
         setupData(InitData);
     }
+
+    turnOffSelectMode = () => {
+        const { setCheckedData } = this.props;
+        this.setState({ selectMode: false });
+        setCheckedData([]);
+    };
+
+    doneTasks= () => {
+        const { setupData, data, checkedData } = this.props;
+        setupData((data.filter((item) => (
+            !checkedData.some((val) => ((val.id === item.id) && (Number(val.repeat) < 2)))
+        ))).map((val) => {
+            if (checkedData.some((item) => ((val.id === item.id)))) {
+                // eslint-disable-next-line no-param-reassign
+                val.repeat = String(--val.repeat);
+            }
+            return val;
+        }));
+    };
 
 handelEditPress = () => {
     const { navigation } = this.props;
     navigation.navigate('EditList');
+};
+
+handleDonePress = () => {
+    const { selectMode } = this.state;
+    const { checkedData } = this.props;
+    if (selectMode && checkedData.length) {
+        Alert.alert('Done', 'Are you sure you done this?', [
+            {
+                text: 'Cancel',
+                style: 'cancel',
+                onPress: this.turnOffSelectMode,
+            },
+            {
+                text: 'OK',
+                onPress: () => {
+                    this.doneTasks();
+                    this.turnOffSelectMode();
+                },
+            },
+        ]);
+    } else if (!checkedData.length && selectMode) {
+        this.setState({ selectMode: false });
+    } else {
+        this.setState({ selectMode: true });
+    }
+};
+
+handleLongPress = () => {
+    this.setState({ selectMode: true });
 };
 
 handleAllPress = () => {
@@ -93,6 +145,7 @@ handleOtherPress = () => {
 
 render() {
     const { data } = this.props;
+    const { selectMode } = this.state;
     return (
       <View style={containerStyle.container}>
         <Title title="Tasks for this week: " />
@@ -101,14 +154,25 @@ render() {
           onPressImportant={this.handleImportantPress}
           onPressOther={this.handleOtherPress}
         />
-        <ListOfTasks data={data} />
+        <ListOfTasks
+          data={data}
+          OnLongPressTask={this.handleLongPress}
+          selectMode={selectMode}
+        />
         <BottomMenu>
           <Button
             text="Edit list"
             icon={
-              <Icon name="fountain-pen" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+              <Icon name="pencil" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                 }
             onPress={this.handelEditPress}
+          />
+          <Button
+            text="Done"
+            icon={
+              <Icon name="checklist" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                }
+            onPress={this.handleDonePress}
           />
         </BottomMenu>
       </View>
@@ -118,7 +182,9 @@ render() {
 
 Home.propTypes = {
     setupData: PropTypes.func,
+    setCheckedData: PropTypes.func,
     data: PropTypes.array,
+    checkedData: PropTypes.array,
     navigation: PropTypes.object,
 };
 
@@ -126,12 +192,16 @@ const mapDispatchToProps = (dispatch) => ({
     setupData: (data) => {
         dispatch(setupCurrentData(data));
     },
+    setCheckedData: (data) => {
+        dispatch(setupCheckedData(data));
+    },
 });
 
 const mapStateToProps = (state) => {
-    const { data } = state.data;
+    const { data, checkedData } = state.data;
     return {
         data,
+        checkedData,
     };
 };
 
