@@ -15,6 +15,7 @@ const Checkbox = ({
     onPress={onPress}
     style={[checkboxStyle.container, { backgroundColor }]}
     underlayColor={underlayColor}
+      // eslint-disable-next-line react/jsx-closing-bracket-location
       >
     <View>
       {selected ? <Icon name="check" color="white" size={30} resizeMode="contain" style={checkboxStyle.mark} /> : null}

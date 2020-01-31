@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import {
     View, Text, Picker,
 } from 'react-native';
+import { connect } from 'react-redux';
+
+import { setupCurrentData } from '../actions/data';
 import {
     Input,
     Checkbox,
@@ -15,24 +18,63 @@ class NewTask extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            repeat: '1',
-            task: '',
-            important: false,
-            addToElected: false,
-        };
+        const { task } = this.props;
+        this.state = task
+            ? {
+                repeat: task.repeat,
+                task: task.task,
+                important: task.important,
+                addToElected: false,
+            }
+            : {
+                repeat: '1',
+                task: '',
+                important: false,
+                addToElected: false,
+            };
     }
 
-    handleSaveOnPress = () => {};
+    handleSaveOnPress = () => {
+        const { task: taskFromProps, setupData, close } = this.props;
+        let { data } = this.props;
+        const {
+            repeat,
+            task,
+            important,
+            addToElected,
+        } = this.state;
+        if (taskFromProps.id) {
+            data = data.map((item) => ((item.id === taskFromProps.id) ? {
+                id: item.id,
+                repeat,
+                task,
+                important,
+                addToElected,
+            } : item));
+        } else {
+            data = data.map((item) => (item));
+            data.push({
+                id: String(Number(data[data.length - 1].id) + 1),
+                repeat,
+                task,
+                important,
+                addToElected,
+            });
+        }
+        setupData(data);
+        close();
+    };
 
-    handleCancelOnPress = () => {};
+    handleCancelOnPress = () => {
+        const { close } = this.props;
+        close();
+    };
 
     handleTextChange = (value) => {
         this.setState({ task: value });
     };
 
     handleImportantPress = () => {
-        console.log('imp');
         const { important } = this.state;
         this.setState({ important: !important });
     };
@@ -43,10 +85,16 @@ class NewTask extends Component {
     };
 
     render() {
-        const { repeat, important, addToElected } = this.state;
+        const {
+            repeat, important, addToElected, task,
+        } = this.state;
         return (
           <View style={newTaskStyle.container}>
-            <Input placeholder="Enter task..." onChangeText={this.handleTextChange} />
+            <Input
+              placeholder="Enter task..."
+              onChangeText={this.handleTextChange}
+              value={task}
+            />
             <View style={newTaskStyle.optionContainer}>
               <View style={newTaskStyle.option}>
                 <Checkbox
@@ -84,12 +132,34 @@ class NewTask extends Component {
               </View>
             </View>
             <View style={newTaskStyle.buttons}>
-              <Button text="Cancel" />
-              <Button text="Save" />
+              <Button text="Cancel" onPress={this.handleCancelOnPress} />
+              <Button text="Save" onPress={this.handleSaveOnPress} />
             </View>
           </View>
         );
     }
 }
 
-export default NewTask;
+NewTask.propTypes = {
+    task: PropTypes.object,
+    data: PropTypes.array,
+    setupData: PropTypes.func,
+    close: PropTypes.func,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+    setupData: (data) => {
+        dispatch(setupCurrentData(data));
+    },
+});
+
+const mapStateToProps = (state) => {
+    const { data } = state.data;
+    const { task } = state.currentTask;
+    return {
+        data,
+        task,
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewTask);

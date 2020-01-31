@@ -1,23 +1,71 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text } from 'react-native';
 
-import { listStyle } from '../styles';
+import { listStyle, colors } from '../styles';
 import RepeatIcon from '../assets/icons/Repeat';
+import Checkbox from './Checkbox';
 
-const ListItem = ({ data, onPress }) => {
+class ListItem extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selected: false,
+        };
+    }
+
+handleCheckboxPress = (data) => {
+    const { selected } = this.state;
+    const { OnCheckboxPress } = this.props;
+    this.setState({ selected: !selected });
+    OnCheckboxPress(data, !selected);
+};
+
+render() {
+    const {
+        data,
+        onLongPress,
+        onPress,
+        selectMode,
+    } = this.props;
     const { task, important, repeat } = data;
+    const { selected } = this.state;
     return (
-      <TouchableOpacity onPress={onPress} style={listStyle.listItemStyle}>
-        {(repeat && (Number(repeat) > 1)) ? <RepeatIcon color="#FA8072" size={35} repeat={repeat} /> : null}
-        <Text style={listStyle.task}>{`${task} ${important} ${repeat}`}</Text>
+      <TouchableOpacity onLongPress={onLongPress} onPress={onPress} style={listStyle.listItemStyle}>
+        {(repeat && (Number(repeat) > 1))
+        ? <RepeatIcon color={colors.$primaryAccentColorVar} size={35} repeat={repeat} />
+        : null}
+        <Text style={[listStyle.task, (important
+          ? { color: colors.$primaryAccentColorVar }
+          : null)]}
+        >
+          {`${task} ${important} ${repeat}`}
+        </Text>
+        {selectMode ? (
+          <Checkbox
+            selected={selected}
+            backgroundColor={colors.$primaryAccentColorVar}
+            underlayColor={colors.$primaryColorVar}
+            onPress={
+              () => {
+              this.handleCheckboxPress(data);
+}
+}
+          />
+) : null}
+
       </TouchableOpacity>
     );
-};
+}
+}
 
 ListItem.propTypes = {
     data: PropTypes.object,
+    onLongPress: PropTypes.func,
     onPress: PropTypes.func,
+    OnCheckboxPress: PropTypes.func,
+    selected: PropTypes.bool,
+    selectMode: PropTypes.bool,
 };
 
 export default ListItem;
