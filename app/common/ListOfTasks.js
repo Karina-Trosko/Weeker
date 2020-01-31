@@ -11,15 +11,8 @@ import { setupDeleteData } from '../actions/deleteData';
 class ListOfTasks extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            selectMode: false,
-        };
         props.setDeleteData([]);
     }
-
-  handleLongPressOnTask = () => {
-      this.setState({ selectMode: true });
-  };
 
   handleOnPress = (task) => {
       const { setupTask } = this.props;
@@ -42,8 +35,9 @@ render() {
         styles = { marginBottom: indents.marginBottomList },
         OnPressTask = () => {},
         OnLongPressTask = () => {},
+        selectMode,
     } = this.props;
-    const { selectMode } = this.state;
+    // const { selectMode } = this.state;
     return (
       <ScrollView style={styles}>
         <FlatList
@@ -52,7 +46,6 @@ render() {
             <ListItem
               data={item}
               onLongPress={() => {
-                this.handleLongPressOnTask();
                 OnLongPressTask();
 }}
               selectMode={selectMode}
@@ -79,6 +72,7 @@ ListOfTasks.propTypes = {
     styles: PropTypes.object,
     OnPressTask: PropTypes.func,
     OnLongPressTask: PropTypes.func,
+    selectMode: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch) => ({

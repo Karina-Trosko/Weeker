@@ -88,8 +88,10 @@ class NewTask extends Component {
         const {
             repeat, important, addToElected, task,
         } = this.state;
+
+        const { withKeyboard } = this.props;
         return (
-          <View style={newTaskStyle.container}>
+          <View style={[newTaskStyle.container, withKeyboard ? { marginBottom: 0 } : null]}>
             <Input
               placeholder="Enter task..."
               onChangeText={this.handleTextChange}
@@ -145,6 +147,7 @@ NewTask.propTypes = {
     data: PropTypes.array,
     setupData: PropTypes.func,
     close: PropTypes.func,
+    withKeyboard: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch) => ({

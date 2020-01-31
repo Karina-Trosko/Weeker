@@ -14,6 +14,14 @@ class ListItem extends Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (!nextProps.selectMode) {
+            this.setState({
+                selected: false,
+            });
+        }
+    }
+
 handleCheckboxPress = (data) => {
     const { selected } = this.state;
     const { OnCheckboxPress } = this.props;
@@ -64,7 +72,6 @@ ListItem.propTypes = {
     onLongPress: PropTypes.func,
     onPress: PropTypes.func,
     OnCheckboxPress: PropTypes.func,
-    selected: PropTypes.bool,
     selectMode: PropTypes.bool,
 };
 
