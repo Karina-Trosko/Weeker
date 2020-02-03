@@ -14,6 +14,8 @@ import {
 import { setupCurrentData } from '../actions/data';
 import { containerStyle, colors } from '../styles';
 import { setupCheckedData } from '../actions/checkedData';
+import { getGeneralData, getElectData } from '../services/localstorage';
+import { setupElectData } from '../actions/ElectData';
 
 const InitData = [{
     id: '1',
@@ -36,11 +38,16 @@ const InitData = [{
 class Home extends Component {
     constructor(props) {
         super(props);
-        const { setupData } = this.props;
+        const { setupData, setElectData } = this.props;
         this.state = {
             selectMode: false,
         };
-        setupData(InitData);
+        // setupData(InitData);
+        const data = getGeneralData();
+        setupData(Array.isArray(data) ? data : []);
+        const electData = getElectData();
+        console.log(electData);
+        setElectData(Array.isArray(electData) ? electData : []);
     }
 
     turnOffSelectMode = () => {
@@ -151,6 +158,7 @@ render() {
 Home.propTypes = {
     setupData: PropTypes.func,
     setCheckedData: PropTypes.func,
+    setElectData: PropTypes.func,
     data: PropTypes.array,
     checkedData: PropTypes.array,
     navigation: PropTypes.object,
@@ -162,6 +170,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     setCheckedData: (data) => {
         dispatch(setupCheckedData(data));
+    },
+    setElectData: (data) => {
+        dispatch(setupElectData(data));
     },
 });
 

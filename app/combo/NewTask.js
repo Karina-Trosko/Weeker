@@ -13,6 +13,7 @@ import {
     Button,
 } from '../common';
 import { newTaskStyle, colors } from '../styles';
+import { storeElectData } from '../services/localstorage';
 
 class NewTask extends Component {
     repeats = ['1', '2', '3', '4', '5', '6', '7'];
@@ -49,6 +50,7 @@ addToElectedList= (repeat, task, important) => {
         });
     }
     setElectData(electData);
+    storeElectData(electData);
 };
 
 createNewTask = () => {
