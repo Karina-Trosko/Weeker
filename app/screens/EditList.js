@@ -108,6 +108,11 @@ handleDeletePress = () => {
     }
 };
 
+handleStarPress= () => {
+    const { navigation } = this.props;
+    navigation.navigate('ListOfElect');
+};
+
 handleTaskLongPress = () => {
     this.setState({ selectMode: true });
 };
@@ -149,9 +154,11 @@ render() {
                 }
                 onPress={this.handleDeletePress}
               />
-              <Button icon={
-                <Icon name="star" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+              <Button
+                icon={
+                  <Icon name="star" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                 }
+                onPress={this.handleStarPress}
               />
             </BottomMenu>
 )

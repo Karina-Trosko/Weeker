@@ -6,6 +6,7 @@ import {
 import { connect } from 'react-redux';
 
 import { setupCurrentData } from '../actions/data';
+import { setupElectData } from '../actions/ElectData';
 import {
     Input,
     Checkbox,
@@ -24,7 +25,6 @@ class NewTask extends Component {
                 repeat: task.repeat,
                 task: task.task,
                 important: task.important,
-                addToElected: false,
             }
             : {
                 repeat: '1',
@@ -34,33 +34,71 @@ class NewTask extends Component {
             };
     }
 
+addToElectedList= (repeat, task, important) => {
+    const { setElectData } = this.props;
+    let { electData } = this.props;
+    if (electData) {
+        const id = electData.length ? String(Number(electData[electData.length - 1].id) + 1) : '0';
+        electData.push({
+            id, repeat, task, important,
+        });
+    } else {
+        electData = [];
+        electData.push({
+            id: '0', repeat, task, important,
+        });
+    }
+    setElectData(electData);
+};
+
+createNewTask = () => {
+    const {
+        repeat,
+        task,
+        important,
+        addToElected,
+    } = this.state;
+    const { data } = this.props;
+    if (addToElected) {
+        this.addToElectedList(repeat, task, important);
+    }
+    return {
+        id: data.length ? String(Number(data[data.length - 1].id) + 1) : '0',
+        repeat,
+        task,
+        important,
+    };
+};
+
+updateTask = (id) => {
+    const {
+        repeat,
+        task,
+        important,
+        addToElected,
+    } = this.state;
+    if (addToElected) {
+        this.addToElectedList(repeat, task, important);
+    }
+    return {
+        id,
+        repeat,
+        task,
+        important,
+    };
+};
+
     handleSaveOnPress = () => {
         const { task: taskFromProps, setupData, close } = this.props;
         let { data } = this.props;
-        const {
-            repeat,
-            task,
-            important,
-            addToElected,
-        } = this.state;
         if (taskFromProps.id) {
-            data = data.map((item) => ((item.id === taskFromProps.id) ? {
-                id: item.id,
-                repeat,
-                task,
-                important,
-                addToElected,
-            } : item));
+            data = data.map((item) => ((item.id === taskFromProps.id)
+                ? this.updateTask(item.id) : item));
         } else {
             data = data.map((item) => (item));
-            data.push({
-                id: String(Number(data[data.length - 1].id) + 1),
-                repeat,
-                task,
-                important,
-                addToElected,
-            });
+            data.push(this.createNewTask());
         }
+
         setupData(data);
         close();
     };
@@ -89,7 +127,7 @@ class NewTask extends Component {
             repeat, important, addToElected, task,
         } = this.state;
 
-        const { withKeyboard } = this.props;
+        const { withKeyboard, task: taskFromProps } = this.props;
         return (
           <View style={[newTaskStyle.container, withKeyboard ? { marginBottom: 0 } : null]}>
             <Input
@@ -107,15 +145,19 @@ class NewTask extends Component {
                 />
                 <Text style={newTaskStyle.text}>important</Text>
               </View>
-              <View style={newTaskStyle.option}>
-                <Checkbox
-                  selected={addToElected}
-                  onPress={this.handleAddToElectedPress}
-                  backgroundColor={colors.$primaryAccentColorVar}
-                  underlayColor={colors.$primaryColorVar}
-                />
-                <Text style={newTaskStyle.text}>add to elected</Text>
-              </View>
+              {(taskFromProps.tesk)
+              ? null
+              : (
+                <View style={newTaskStyle.option}>
+                  <Checkbox
+                    selected={addToElected}
+                    onPress={this.handleAddToElectedPress}
+                    backgroundColor={colors.$primaryAccentColorVar}
+                    underlayColor={colors.$primaryColorVar}
+                  />
+                  <Text style={newTaskStyle.text}>add to elected</Text>
+                </View>
+)}
               <View style={newTaskStyle.option}>
                 <Picker
                   style={newTaskStyle.picker}
@@ -145,7 +187,9 @@ class NewTask extends Component {
 NewTask.propTypes = {
     task: PropTypes.object,
     data: PropTypes.array,
+    electData: PropTypes.array,
     setupData: PropTypes.func,
+    setElectData: PropTypes.func,
     close: PropTypes.func,
     withKeyboard: PropTypes.bool,
 };
@@ -154,14 +198,19 @@ const mapDispatchToProps = (dispatch) => ({
     setupData: (data) => {
         dispatch(setupCurrentData(data));
     },
+    setElectData: (data) => {
+        dispatch(setupElectData(data));
+    },
 });
 
 const mapStateToProps = (state) => {
-    const { data } = state.data;
+    const { data, electData } = state.data;
     const { task } = state.currentTask;
+
     return {
         data,
         task,
+        electData,
     };
 };
 

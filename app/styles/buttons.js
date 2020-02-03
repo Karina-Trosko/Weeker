@@ -6,7 +6,7 @@ export const switchButtonStyle = EStyleSheet.create({
         flex: 1,
     },
     text: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: '600',
         alignSelf: 'center',
         color: '$primaryColor',
@@ -16,7 +16,7 @@ export const switchButtonStyle = EStyleSheet.create({
 export const buttonStyle = EStyleSheet.create({
     button: {
         padding: 10,
-        margin: 10,
+        marginHorizontal: 10,
         flexDirection: 'row',
         backgroundColor: '$primaryColor',
     },

@@ -85,9 +85,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => {
-    const { data, checkedData } = state.data;
+    const { checkedData } = state.data;
     return {
-        data,
         checkedData,
     };
 };

@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { indents } from './variables';
 
 const styles = EStyleSheet.create({
     input: {
@@ -21,6 +22,7 @@ const styles = EStyleSheet.create({
     buttons: {
         flexDirection: 'row',
         justifyContent: 'space-around',
+        marginVertical: 5,
     },
     text: {
         fontSize: 24,
@@ -32,7 +34,7 @@ const styles = EStyleSheet.create({
         width: 100,
     },
     container: {
-        marginBottom: 70,
+        marginBottom: indents.marginBottomList,
         backgroundColor: '$primaryWhite',
     },
 });

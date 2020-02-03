@@ -31,39 +31,7 @@ const InitData = [{
     repeat: '',
     important: false,
 },
-{
-    id: '4',
-    task: 'task',
-    repeat: '1',
-    important: true,
-}, {
-    id: '5',
-    task: 'task2',
-    repeat: '1',
-    important: true,
-}, {
-    id: '6',
-    task: 'task3',
-    repeat: '1',
-    important: true,
-},
-{
-    id: '7',
-    task: 'task3',
-    repeat: '3',
-    important: true,
-}, {
-    id: '8',
-    task: 'task3',
-    repeat: '1',
-    important: true,
-},
-{
-    id: '9',
-    task: 'task3jshdgs jhgjhgjhgjsh bdjyg fjrhdbhegjyrg thrbrduuf ytty t ty ty ty ty tytuty ',
-    repeat: '1',
-    important: true,
-}];
+];
 
 class Home extends Component {
     constructor(props) {

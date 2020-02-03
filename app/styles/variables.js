@@ -8,7 +8,7 @@ export const colors = EStyleSheet.create({
 });
 
 export const indents = {
-    marginBottomList: 70,
+    marginBottomList: 50,
 };
 
 EStyleSheet.build({
