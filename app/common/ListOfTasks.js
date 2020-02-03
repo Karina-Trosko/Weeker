@@ -36,6 +36,7 @@ render() {
         OnPressTask = () => {},
         OnLongPressTask = () => {},
         selectMode,
+        checkedData,
     } = this.props;
     // const { selectMode } = this.state;
     return (
@@ -49,6 +50,7 @@ render() {
                 OnLongPressTask();
 }}
               selectMode={selectMode}
+              noSelectedItems={!(checkedData.length)}
               onPress={() => {
   this.handleOnPress(item);
                 OnPressTask();
@@ -57,7 +59,7 @@ render() {
             />
 )}
           keyExtractor={(item) => item.id}
-          extraData={selectMode}
+          extraData={[selectMode, checkedData ? !(checkedData.length) : null]}
         />
       </ScrollView>
     );

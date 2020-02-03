@@ -33,11 +33,13 @@ handelBackPress = () => {
 addCheckedTasks = () => {
     const { setupData, data, checkedData } = this.props;
     let id = data.length ? String(Number(data[data.length - 1].id) + 1) : '0';
+
     checkedData.forEach((item) => {
-        item.id = id;
+        const newItem = item;
+        newItem.id = id;
         id++;
         id = String(id);
-        data.push(item);
+        data.push({ ...newItem });
     });
     setupData(data.map((item) => item));
     this.resetCheckedTasks();
