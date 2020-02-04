@@ -28,6 +28,9 @@ class Home extends Component {
         const { setupData, setElectData } = this.props;
         this.state = {
             selectMode: false,
+            showAll: true,
+            showImp: false,
+            showOther: false,
         };
         // setupData(InitData);
         const data = getStoredData(GENERAL_DATA);
@@ -92,30 +95,34 @@ handleLongPress = () => {
 };
 
 handleAllPress = () => {
-    // const { setupData } = this.props;
-    // const data = getStoredData(GENERAL_DATA);
-    // data.then((res) => setupData(Array.isArray(res) ? res : []), null);
+    this.setState({
+        showAll: true,
+        showImp: false,
+        showOther: false,
+    });
 };
 
 handleImportantPress = () => {
-    // const { setupData } = this.props;
-    // const data = getStoredData(GENERAL_DATA);
-    // data.then((res) => setupData(Array.isArray(res)
-    //     ? res.filter((item) => (item.important))
-    //     : []), null);
+    this.setState({
+        showAll: false,
+        showImp: true,
+        showOther: false,
+    });
 };
 
 handleOtherPress = () => {
-    // const { setupData } = this.props;
-    // const data = getStoredData(GENERAL_DATA);
-    // data.then((res) => setupData(Array.isArray(res)
-    //     ? res.filter((item) => (!item.important))
-    //     : []), null);
+    this.setState({
+        showAll: false,
+        showImp: false,
+        showOther: true,
+    });
 };
 
 render() {
     const { data } = this.props;
-    const { selectMode } = this.state;
+    const {
+        selectMode, showAll, showImp, showOther,
+    } = this.state;
     return (
       <View style={containerStyle.container}>
         <Title title="Tasks for this week: " />
@@ -128,6 +135,10 @@ render() {
           data={data}
           OnLongPressTask={this.handleLongPress}
           selectMode={selectMode}
+          showAll={showAll}
+          showImp={showImp}
+          showOther={showOther}
+
         />
         <BottomMenu>
           <Button

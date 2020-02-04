@@ -40,9 +40,10 @@ addToElectedList= (repeat, task, important) => {
     let { electData } = this.props;
     if (electData) {
         const id = electData.length ? String(Number(electData[electData.length - 1].id) + 1) : '0';
-        electData.push({
+        const newItem = {
             id, repeat, task, important,
-        });
+        };
+        electData.push({ ...newItem });
     } else {
         electData = [];
         electData.push({

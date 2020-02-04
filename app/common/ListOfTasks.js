@@ -29,9 +29,43 @@ handleCheckboxPress = (item, selected) => {
     }
 };
 
+filterData = () => {
+    const {
+        showAll, showImp, showOther, data,
+    } = this.props;
+    // if (showImp) {
+    //     const data = getStoredData(GENERAL_DATA);
+    //     // eslint-disable-next-line no-return-assign
+    //     data.then((res) => showData = Array.isArray(res)
+    //         ? res.filter((item) => (item.important))
+    //         : [], null);
+    // } else if (showOther) {
+    //     const data = getStoredData(GENERAL_DATA);
+    //     // eslint-disable-next-line no-return-assign
+    //     data.then((res) => showData = Array.isArray(res)
+    //         ? res.filter((item) => (!item.important))
+    //         : [], null);
+    // } else if (showAll) {
+    //     const data = getStoredData(GENERAL_DATA);
+    //     // eslint-disable-next-line no-return-assign
+    //     data.then((res) => showData = Array.isArray(res)
+    //         ? res
+    //         : [], null);
+    // }
+    if (showAll) {
+        return data;
+    }
+    if (showImp) {
+        return data.filter((item) => (item.important));
+    }
+    if (showOther) {
+        return data.filter((item) => (!item.important));
+    }
+    return data;
+};
+
 render() {
     const {
-        data,
         styles = { marginBottom: indents.marginBottomList },
         OnPressTask = () => {},
         OnLongPressTask = () => {},
@@ -42,7 +76,7 @@ render() {
     return (
       <ScrollView style={styles}>
         <FlatList
-          data={data || []}
+          data={this.filterData() || []}
           renderItem={({ item }) => (
             <ListItem
               data={item}
@@ -75,6 +109,9 @@ ListOfTasks.propTypes = {
     OnPressTask: PropTypes.func,
     OnLongPressTask: PropTypes.func,
     selectMode: PropTypes.bool,
+    showAll: PropTypes.bool,
+    showImp: PropTypes.bool,
+    showOther: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch) => ({

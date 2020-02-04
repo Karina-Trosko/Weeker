@@ -29,6 +29,9 @@ class EditList extends Component {
             addPress: false,
             selectMode: false,
             menuShow: true,
+            showAll: true,
+            showImp: false,
+            showOther: false,
         };
         this.keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
@@ -47,7 +50,27 @@ handelBackPress = () => {
 };
 
 handleAllPress = () => {
+    this.setState({
+        showAll: true,
+        showImp: false,
+        showOther: false,
+    });
+};
 
+handleImportantPress = () => {
+    this.setState({
+        showAll: false,
+        showImp: true,
+        showOther: false,
+    });
+};
+
+handleOtherPress = () => {
+    this.setState({
+        showAll: false,
+        showImp: false,
+        showOther: true,
+    });
 };
 
 handleAddPress = () => {
@@ -122,11 +145,24 @@ handleTaskLongPress = () => {
 
 render() {
     const { data } = this.props;
-    const { addPress, selectMode, menuShow } = this.state;
+    const {
+        addPress,
+        selectMode,
+        menuShow,
+        showAll,
+        showImp,
+        showOther,
+    } = this.state;
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={containerStyle.container}>
-          {menuShow ? <ListViewSwitch /> : null}
+          {menuShow ? (
+            <ListViewSwitch
+              onPressAll={this.handleAllPress}
+              onPressImportant={this.handleImportantPress}
+              onPressOther={this.handleOtherPress}
+            />
+) : null}
 
           <ListOfTasks
             data={data}
@@ -134,6 +170,9 @@ render() {
             OnPressTask={this.handleTaskPress}
             OnLongPressTask={this.handleTaskLongPress}
             selectMode={selectMode}
+            showAll={showAll}
+            showImp={showImp}
+            showOther={showOther}
           />
           {addPress ? <NewTask close={this.handleTaskPress} withKeyboard={!menuShow} /> : null}
           {menuShow
