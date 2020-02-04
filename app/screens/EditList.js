@@ -20,6 +20,7 @@ import { setupCurrentTask } from '../actions/currentTask';
 import { setupCheckedData } from '../actions/checkedData';
 import { NewTask } from '../combo';
 import { containerStyle, colors, indents } from '../styles';
+import { storeData, GENERAL_DATA } from '../services/localstorage';
 
 class EditList extends Component {
     constructor(props) {
@@ -70,11 +71,13 @@ handleTaskPress = () => {
     }
 };
 
-checkedTasks = () => {
+deleteTasks = () => {
     const { setupData, data, checkedData } = this.props;
-    setupData(data.filter((item) => (
+    const newData = data.filter((item) => (
         !checkedData.some((val) => (val.id === item.id))
-    )));
+    ));
+    setupData(newData);
+    storeData(newData, GENERAL_DATA);
 };
 
 turnOffSelectMode = () => {
@@ -96,7 +99,7 @@ handleDeletePress = () => {
             {
                 text: 'OK',
                 onPress: () => {
-                    this.checkedTasks();
+                    this.deleteTasks();
                     this.turnOffSelectMode();
                 },
             },

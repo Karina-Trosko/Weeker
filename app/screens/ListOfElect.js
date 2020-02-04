@@ -18,6 +18,7 @@ import { setupCurrentData } from '../actions/data';
 import { setupCheckedData } from '../actions/checkedData';
 import { setupElectData } from '../actions/ElectData';
 import { containerStyle, colors, indents } from '../styles';
+import { storeData, ELECT_DATA, GENERAL_DATA } from '../services/localstorage';
 
 class ListOfElect extends Component {
     constructor(props) {
@@ -41,7 +42,9 @@ addCheckedTasks = () => {
         id = String(id);
         data.push({ ...newItem });
     });
-    setupData(data.map((item) => item));
+    const newData = data.map((item) => item);
+    setupData(newData);
+    storeData(newData, GENERAL_DATA);
     this.resetCheckedTasks();
 };
 
@@ -51,9 +54,11 @@ handleAddPress = () => {
 
 deleteCheckedTasks = () => {
     const { setElectData, electData, checkedData } = this.props;
-    setElectData(electData.filter((item) => (
-        !checkedData.some((val) => (val.id === item.id))
-    )));
+    const newData = electData.filter((item) => (
+        !checkedData.some((val) => (val.id === item.id))));
+
+    setElectData(newData);
+    storeData(newData, ELECT_DATA);
 };
 
 resetCheckedTasks = () => {

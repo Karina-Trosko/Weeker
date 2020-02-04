@@ -14,26 +14,13 @@ import {
 import { setupCurrentData } from '../actions/data';
 import { containerStyle, colors } from '../styles';
 import { setupCheckedData } from '../actions/checkedData';
-import { getGeneralData, getElectData } from '../services/localstorage';
+import {
+    GENERAL_DATA,
+    ELECT_DATA,
+    getStoredData,
+    storeData,
+} from '../services/localstorage';
 import { setupElectData } from '../actions/ElectData';
-
-const InitData = [{
-    id: '1',
-    task: 'task',
-    repeat: '',
-    important: false,
-}, {
-    id: '2',
-    task: 'task2',
-    repeat: '3',
-    important: true,
-}, {
-    id: '3',
-    task: 'task3',
-    repeat: '',
-    important: false,
-},
-];
 
 class Home extends Component {
     constructor(props) {
@@ -43,11 +30,10 @@ class Home extends Component {
             selectMode: false,
         };
         // setupData(InitData);
-        const data = getGeneralData();
-        setupData(Array.isArray(data) ? data : []);
-        const electData = getElectData();
-        console.log(electData);
-        setElectData(Array.isArray(electData) ? electData : []);
+        const data = getStoredData(GENERAL_DATA);
+        data.then((res) => setupData(Array.isArray(res) ? res : []), null);
+        const electData = getStoredData(ELECT_DATA);
+        electData.then((res) => setElectData(Array.isArray(res) ? res : []), null);
     }
 
     turnOffSelectMode = () => {
@@ -58,7 +44,7 @@ class Home extends Component {
 
     doneTasks= () => {
         const { setupData, data, checkedData } = this.props;
-        setupData((data.filter((item) => (
+        const newData = (data.filter((item) => (
             !checkedData.some((val) => ((val.id === item.id) && (Number(val.repeat) < 2)))
         ))).map((val) => {
             if (checkedData.some((item) => ((val.id === item.id)))) {
@@ -66,7 +52,9 @@ class Home extends Component {
                 val.repeat = String(--val.repeat);
             }
             return val;
-        }));
+        });
+        setupData(newData);
+        storeData(newData, GENERAL_DATA);
     };
 
 handelEditPress = () => {
@@ -104,18 +92,25 @@ handleLongPress = () => {
 };
 
 handleAllPress = () => {
-    const { setupData } = this.props;
-    setupData(InitData);
+    // const { setupData } = this.props;
+    // const data = getStoredData(GENERAL_DATA);
+    // data.then((res) => setupData(Array.isArray(res) ? res : []), null);
 };
 
 handleImportantPress = () => {
-    const { setupData } = this.props;
-    setupData(InitData.filter((item) => (item.important)));
+    // const { setupData } = this.props;
+    // const data = getStoredData(GENERAL_DATA);
+    // data.then((res) => setupData(Array.isArray(res)
+    //     ? res.filter((item) => (item.important))
+    //     : []), null);
 };
 
 handleOtherPress = () => {
-    const { setupData } = this.props;
-    setupData(InitData.filter((item) => (!item.important)));
+    // const { setupData } = this.props;
+    // const data = getStoredData(GENERAL_DATA);
+    // data.then((res) => setupData(Array.isArray(res)
+    //     ? res.filter((item) => (!item.important))
+    //     : []), null);
 };
 
 render() {
