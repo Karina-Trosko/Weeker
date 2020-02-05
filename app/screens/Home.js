@@ -12,31 +12,23 @@ import {
     Button,
 } from '../common';
 import { setupCurrentData } from '../actions/data';
+import { setupElectData } from '../actions/ElectData';
 import { containerStyle, colors } from '../styles';
 import { setupCheckedData } from '../actions/checkedData';
 import {
     GENERAL_DATA,
-    ELECT_DATA,
-    getStoredData,
     storeData,
 } from '../services/localstorage';
-import { setupElectData } from '../actions/ElectData';
 
 class Home extends Component {
     constructor(props) {
         super(props);
-        const { setupData, setElectData } = this.props;
         this.state = {
             selectMode: false,
             showAll: true,
             showImp: false,
             showOther: false,
         };
-        // setupData(InitData);
-        const data = getStoredData(GENERAL_DATA);
-        data.then((res) => setupData(Array.isArray(res) ? res : []), null);
-        const electData = getStoredData(ELECT_DATA);
-        electData.then((res) => setElectData(Array.isArray(res) ? res : []), null);
     }
 
     turnOffSelectMode = () => {
@@ -164,7 +156,6 @@ render() {
 Home.propTypes = {
     setupData: PropTypes.func,
     setCheckedData: PropTypes.func,
-    setElectData: PropTypes.func,
     data: PropTypes.array,
     checkedData: PropTypes.array,
     navigation: PropTypes.object,

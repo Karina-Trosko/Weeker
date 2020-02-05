@@ -7,6 +7,7 @@ export const storeData = async (data, key) => {
     try {
         await AsyncStorage.setItem(key, JSON.stringify(data));
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.log(e);
     }
 };
@@ -18,6 +19,7 @@ export const getStoredData = async (key) => {
         }
         return null;
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.log(e);
     }
     return null;

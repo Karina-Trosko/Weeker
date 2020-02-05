@@ -1,10 +1,10 @@
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 import Home from '../screens/Home';
 import EditList from '../screens/EditList';
 import ListOfElect from '../screens/ListOfElect';
 
-const HomeStack = StackNavigator({
+const HomeStack = createStackNavigator({
     Home: {
         screen: Home,
         navigationOptions: {
