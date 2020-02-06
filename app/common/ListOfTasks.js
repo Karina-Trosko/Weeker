@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FlatList, ScrollView } from 'react-native';
+import { FlatList } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import ListItem from './ListItem';
 import { setupCurrentTask } from '../actions/currentTask';
@@ -33,25 +34,6 @@ filterData = () => {
     const {
         showAll, showImp, showOther, data,
     } = this.props;
-    // if (showImp) {
-    //     const data = getStoredData(GENERAL_DATA);
-    //     // eslint-disable-next-line no-return-assign
-    //     data.then((res) => showData = Array.isArray(res)
-    //         ? res.filter((item) => (item.important))
-    //         : [], null);
-    // } else if (showOther) {
-    //     const data = getStoredData(GENERAL_DATA);
-    //     // eslint-disable-next-line no-return-assign
-    //     data.then((res) => showData = Array.isArray(res)
-    //         ? res.filter((item) => (!item.important))
-    //         : [], null);
-    // } else if (showAll) {
-    //     const data = getStoredData(GENERAL_DATA);
-    //     // eslint-disable-next-line no-return-assign
-    //     data.then((res) => showData = Array.isArray(res)
-    //         ? res
-    //         : [], null);
-    // }
     if (showAll) {
         return data;
     }
@@ -74,7 +56,7 @@ render() {
     } = this.props;
     // const { selectMode } = this.state;
     return (
-      <ScrollView style={styles}>
+      <KeyboardAwareScrollView style={styles}>
         <FlatList
           data={this.filterData() || []}
           renderItem={({ item }) => (
@@ -95,7 +77,7 @@ render() {
           keyExtractor={(item) => item.id}
           extraData={[selectMode, checkedData ? !(checkedData.length) : null]}
         />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
 }
 }
