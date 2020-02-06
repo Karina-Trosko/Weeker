@@ -8,6 +8,7 @@ import titleStyle from './title';
 import repeatIconStyle from './icons';
 import checkboxStyle from './checkbox';
 import newTaskStyle from './newTask';
+import customModalStyle from './customModal';
 
 export {
     listStyle,
@@ -22,4 +23,5 @@ export {
     containerStyle,
     colors,
     indents,
+    customModalStyle,
 };

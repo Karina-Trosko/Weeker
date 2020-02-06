@@ -21,6 +21,7 @@ import {
     storeData,
     getStoredData,
 } from '../services/localstorage';
+import CustomModal from '../combo/Modal';
 
 class Home extends Component {
     constructor(props) {
@@ -30,34 +31,38 @@ class Home extends Component {
             showAll: true,
             showImp: false,
             showOther: false,
+            showIsExpiredModal: false,
         };
     }
 
-    async componentDidMount() {
-        const { setupData } = this.props;
+    async componentWillMount() {
+        this.setState({ showIsExpiredModal: await this.isExpire() });
+    }
 
-        const date = new Date(await getStoredData(EXPIRATION_DATE));
-        const today = new Date();
-        if (date) {
-            if (date.getFullYear() < today.getFullYear()
+isExpire = async () => {
+    const date = new Date(await getStoredData(EXPIRATION_DATE));
+    const today = new Date();
+    // today.setDate(date.getDate());
+    if (date) {
+        if (date.getFullYear() < today.getFullYear()
             || date.getMonth() < today.getMonth()
             || ((date.getMonth() === today.getMonth()) && (date.getDate() <= today.getDate()))) {
-                Alert.alert('New week started!', 'Do you want to save or delete previose tasks?', [
-                    {
-                        text: 'Delete',
-                        onPress: () => {
-                            setupData([]);
-                            storeData([], GENERAL_DATA);
-                        },
-                    },
-                    {
-                        text: 'Save',
-                        onPress: () => { storeData(this.getNextMonday(), EXPIRATION_DATE); },
-                    },
-                ]);
-            }
+            return true;
         }
     }
+    return false;
+};
+
+handleModalDelete = () => {
+    const { setupData } = this.props;
+    setupData([]);
+    storeData([], GENERAL_DATA);
+    this.setState({ showIsExpiredModal: false });
+};
+
+handleModalSave = () => {
+    this.setState({ showIsExpiredModal: false });
+};
 
     turnOffSelectMode = () => {
         const { setCheckedData } = this.props;
@@ -107,7 +112,8 @@ handelCreatePress = () => {
             text: 'This',
             onPress: () => { storeData(this.getNextMonday(), EXPIRATION_DATE); },
         },
-    ]);
+
+    ], { onDismiss: () => {} });
     navigation.navigate('EditList');
 };
 
@@ -167,7 +173,7 @@ handleOtherPress = () => {
 render() {
     const { data } = this.props;
     const {
-        selectMode, showAll, showImp, showOther,
+        selectMode, showAll, showImp, showOther, showIsExpiredModal,
     } = this.state;
     return (
       <View style={containerStyle.container}>
@@ -214,6 +220,10 @@ render() {
             onPress={this.handleDonePress}
           />
         </BottomMenu>
+        <CustomModal isVisible={showIsExpiredModal} title="New week started!" text="What do you want to do with previos tasks?">
+          <Button text="Save" onPress={this.handleModalSave} />
+          <Button text="Delete" onPress={this.handleModalDelete} />
+        </CustomModal>
       </View>
     );
 }
