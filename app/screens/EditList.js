@@ -6,6 +6,8 @@ import {
     Alert,
     TouchableWithoutFeedback,
     Keyboard,
+    Animated,
+    Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -22,6 +24,8 @@ import { NewTask } from '../combo';
 import { containerStyle, colors, indents } from '../styles';
 import { storeData, GENERAL_DATA } from '../services/localstorage';
 
+const ANIMATION_DURATION = 400;
+
 class EditList extends Component {
     constructor(props) {
         super(props);
@@ -33,16 +37,50 @@ class EditList extends Component {
             showImp: false,
             showOther: false,
         };
-        this.keyboardDidShowListener = Keyboard.addListener(
-            'keyboardDidShow',
-            () => { this.setState({ menuShow: false }); },
-        );
-        this.keyboardDidHideListener = Keyboard.addListener(
-            'keyboardDidHide',
-            () => { this.setState({ menuShow: true }); },
-        );
+        this.menuMarginTop = new Animated.Value(0);
+        this.menuMarginBottom = new Animated.Value(0);
+        // this.keyboardDidShowListener = Keyboard.addListener(
+        //     'keyboardDidShow',
+        //     () => { this.setState({ menuShow: false }); },
+        // );
+        // this.keyboardDidHideListener = Keyboard.addListener(
+        //     'keyboardDidHide',
+        //     () => { this.setState({ menuShow: true }); },
+        // );
     }
 
+    componentDidMount() {
+        const name = Platform.OS === 'ios' ? 'Will' : 'Did';
+        this.keyboardShowListener = Keyboard.addListener(`keyboard${name}Show`, this.keyboardShow);
+        this.keyboardHideListener = Keyboard.addListener(`keyboard${name}Hide`, this.keyboardHide);
+    }
+
+    keyboardShow = () => {
+        Animated.parallel([
+            Animated.timing(this.menuMarginTop, {
+                toValue: -50,
+                duration: ANIMATION_DURATION,
+            }),
+            Animated.timing(this.menuMarginBottom, {
+                toValue: -50,
+                duration: ANIMATION_DURATION,
+            }),
+        ]).start();
+    };
+
+    keyboardHide = () => {
+        Animated.parallel([
+            Animated.timing(this.menuMarginTop, {
+                toValue: 0,
+                duration: ANIMATION_DURATION,
+            }),
+
+            Animated.timing(this.menuMarginBottom, {
+                toValue: 0,
+                duration: ANIMATION_DURATION,
+            }),
+        ]).start();
+    };
 
 handelBackPress = () => {
     const { navigation } = this.props;
@@ -157,11 +195,13 @@ render() {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={containerStyle.container}>
           {menuShow ? (
-            <ListViewSwitch
-              onPressAll={this.handleAllPress}
-              onPressImportant={this.handleImportantPress}
-              onPressOther={this.handleOtherPress}
-            />
+            <Animated.View style={{ marginTop: this.menuMarginTop }}>
+              <ListViewSwitch
+                onPressAll={this.handleAllPress}
+                onPressImportant={this.handleImportantPress}
+                onPressOther={this.handleOtherPress}
+              />
+            </Animated.View>
 ) : null}
 
           <ListOfTasks
@@ -177,32 +217,34 @@ render() {
           {addPress ? <NewTask close={this.handleTaskPress} withKeyboard={!menuShow} /> : null}
           {menuShow
           ? (
-            <BottomMenu otherStyle={{ justifyContent: 'space-around' }}>
-              <Button
-                icon={
-                  <Icon name="arrow-left" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+            <Animated.View style={{ marginBottom: this.menuMarginBottom }}>
+              <BottomMenu otherStyle={{ justifyContent: 'space-around' }}>
+                <Button
+                  icon={
+                    <Icon name="arrow-left" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                   }
-                onPress={this.handelBackPress}
-              />
-              <Button
-                icon={
-                  <Icon name="plus" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                  onPress={this.handelBackPress}
+                />
+                <Button
+                  icon={
+                    <Icon name="plus" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                 }
-                onPress={this.handleAddPress}
-              />
-              <Button
-                icon={
-                  <Icon name="trash-o" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                  onPress={this.handleAddPress}
+                />
+                <Button
+                  icon={
+                    <Icon name="trash-o" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                 }
-                onPress={this.handleDeletePress}
-              />
-              <Button
-                icon={
-                  <Icon name="star" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                  onPress={this.handleDeletePress}
+                />
+                <Button
+                  icon={
+                    <Icon name="star" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                 }
-                onPress={this.handleStarPress}
-              />
-            </BottomMenu>
+                  onPress={this.handleStarPress}
+                />
+              </BottomMenu>
+            </Animated.View>
 )
           : null}
         </View>
