@@ -27,7 +27,11 @@ class Application extends Component {
     }
 
     loadData = async () => {
-        const { setupData, setElectData, setCheckedData } = this.props;
+        const {
+            setupData,
+            setElectData,
+            setCheckedData,
+        } = this.props;
 
         const data = await getStoredData(GENERAL_DATA);
         setupData(Array.isArray(data) ? data : []);

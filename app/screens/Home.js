@@ -17,7 +17,9 @@ import { containerStyle, colors } from '../styles';
 import { setupCheckedData } from '../actions/checkedData';
 import {
     GENERAL_DATA,
+    EXPIRATION_DATE,
     storeData,
+    getStoredData,
 } from '../services/localstorage';
 
 class Home extends Component {
@@ -29,6 +31,32 @@ class Home extends Component {
             showImp: false,
             showOther: false,
         };
+    }
+
+    async componentDidMount() {
+        const { setupData } = this.props;
+
+        const date = new Date(await getStoredData(EXPIRATION_DATE));
+        const today = new Date();
+        if (date) {
+            if (date.getFullYear() < today.getFullYear()
+            || date.getMonth() < today.getMonth()
+            || ((date.getMonth() === today.getMonth()) && (date.getDate() <= today.getDate()))) {
+                Alert.alert('New week started!', 'Do you want to save or delete previose tasks?', [
+                    {
+                        text: 'Delete',
+                        onPress: () => {
+                            setupData([]);
+                            storeData([], GENERAL_DATA);
+                        },
+                    },
+                    {
+                        text: 'Save',
+                        onPress: () => { storeData(this.getNextMonday(), EXPIRATION_DATE); },
+                    },
+                ]);
+            }
+        }
     }
 
     turnOffSelectMode = () => {
@@ -54,6 +82,32 @@ class Home extends Component {
 
 handelEditPress = () => {
     const { navigation } = this.props;
+    navigation.navigate('EditList');
+};
+
+getNextMonday = () => {
+    const date = new Date();
+    const daysBetween = 8 - date.getDay();
+    date.setDate(date.getDate() + daysBetween);
+    return date;
+};
+
+handelCreatePress = () => {
+    const { navigation } = this.props;
+    Alert.alert('Create new list', 'Do you want to create list of tasks for this week or next?', [
+        {
+            text: 'Next',
+            onPress: () => {
+                const date = new Date();
+                date.setDate(this.getNextMonday().getDate() + 7);
+                storeData(date, EXPIRATION_DATE);
+            },
+        },
+        {
+            text: 'This',
+            onPress: () => { storeData(this.getNextMonday(), EXPIRATION_DATE); },
+        },
+    ]);
     navigation.navigate('EditList');
 };
 
@@ -133,13 +187,25 @@ render() {
 
         />
         <BottomMenu>
+          {!(data.length)
+            ? (
+              <Button
+                text="Create list"
+                icon={
+                  <Icon name="pencil" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                }
+                onPress={this.handelCreatePress}
+              />
+)
+        : (
           <Button
             text="Edit list"
             icon={
               <Icon name="pencil" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
-                }
+            }
             onPress={this.handelEditPress}
           />
+)}
           <Button
             text="Done"
             icon={
