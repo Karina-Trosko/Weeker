@@ -45,7 +45,7 @@ public class MainApplication extends Application implements ReactApplication {
 
   @Override
   public void onCreate() {
-  //  setTheme(R.style.AppTheme);
+    setTheme(R.style.AppTheme);
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
   }
