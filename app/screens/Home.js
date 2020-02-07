@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/Octicons';
 
 import {
@@ -21,7 +21,7 @@ import {
     storeData,
     getStoredData,
 } from '../services/localstorage';
-import CustomModal from '../combo/Modal';
+import { CustomModal } from '../combo';
 
 class Home extends Component {
     constructor(props) {
@@ -32,6 +32,8 @@ class Home extends Component {
             showImp: false,
             showOther: false,
             showIsExpiredModal: false,
+            showDoneModal: false,
+            showCreateModal: false,
         };
     }
 
@@ -97,44 +99,44 @@ getNextMonday = () => {
     return date;
 };
 
-handelCreatePress = () => {
+handleNextPress = () => {
     const { navigation } = this.props;
-    Alert.alert('Create new list', 'Do you want to create list of tasks for this week or next?', [
-        {
-            text: 'Next',
-            onPress: () => {
-                const date = new Date();
-                date.setDate(this.getNextMonday().getDate() + 7);
-                storeData(date, EXPIRATION_DATE);
-            },
-        },
-        {
-            text: 'This',
-            onPress: () => { storeData(this.getNextMonday(), EXPIRATION_DATE); },
-        },
 
-    ], { onDismiss: () => {} });
+    const date = new Date();
+    date.setDate(this.getNextMonday().getDate() + 7);
+    storeData(date, EXPIRATION_DATE);
+    this.setState({ showCreateModal: false });
     navigation.navigate('EditList');
+};
+
+handleThisPress = () => {
+    const { navigation } = this.props;
+
+    storeData(this.getNextMonday(), EXPIRATION_DATE);
+    this.setState({ showCreateModal: false });
+    navigation.navigate('EditList');
+};
+
+handelCreatePress = () => {
+    this.setState({ showCreateModal: true });
+};
+
+handleModalDoneOkPress = () => {
+    this.doneTasks();
+    this.turnOffSelectMode();
+    this.setState({ showDoneModal: false });
+};
+
+handleModalDoneCancelPress = () => {
+    this.turnOffSelectMode();
+    this.setState({ showDoneModal: false });
 };
 
 handleDonePress = () => {
     const { selectMode } = this.state;
     const { checkedData } = this.props;
     if (selectMode && checkedData.length) {
-        Alert.alert('Done', 'Are you sure you done this?', [
-            {
-                text: 'Cancel',
-                style: 'cancel',
-                onPress: this.turnOffSelectMode,
-            },
-            {
-                text: 'OK',
-                onPress: () => {
-                    this.doneTasks();
-                    this.turnOffSelectMode();
-                },
-            },
-        ]);
+        this.setState({ showDoneModal: true });
     } else if (!checkedData.length && selectMode) {
         this.setState({ selectMode: false });
     } else {
@@ -173,7 +175,13 @@ handleOtherPress = () => {
 render() {
     const { data } = this.props;
     const {
-        selectMode, showAll, showImp, showOther, showIsExpiredModal,
+        selectMode,
+        showAll,
+        showImp,
+        showOther,
+        showIsExpiredModal,
+        showCreateModal,
+        showDoneModal,
     } = this.state;
     return (
       <View style={containerStyle.container}>
@@ -223,6 +231,14 @@ render() {
         <CustomModal isVisible={showIsExpiredModal} title="New week started!" text="What do you want to do with previos tasks?">
           <Button text="Save" onPress={this.handleModalSave} />
           <Button text="Delete" onPress={this.handleModalDelete} />
+        </CustomModal>
+        <CustomModal isVisible={showCreateModal} title="Create new list" text="Do you want to create list of tasks for this week or next?">
+          <Button text="This" onPress={this.handleThisPress} />
+          <Button text="Next" onPress={this.handleNextPress} />
+        </CustomModal>
+        <CustomModal isVisible={showDoneModal} title="Done" text="Are you sure you done this?">
+          <Button text="Ok" onPress={this.handleModalDoneOkPress} />
+          <Button text="Cancel" onPress={this.handleModalDoneCancelPress} />
         </CustomModal>
       </View>
     );

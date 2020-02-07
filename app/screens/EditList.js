@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
     View,
-    Alert,
     TouchableWithoutFeedback,
     Keyboard,
     Animated,
@@ -20,7 +19,7 @@ import {
 import { setupCurrentData } from '../actions/data';
 import { setupCurrentTask } from '../actions/currentTask';
 import { setupCheckedData } from '../actions/checkedData';
-import { NewTask } from '../combo';
+import { NewTask, CustomModal } from '../combo';
 import { containerStyle, colors, indents } from '../styles';
 import { storeData, GENERAL_DATA } from '../services/localstorage';
 
@@ -36,17 +35,10 @@ class EditList extends Component {
             showAll: true,
             showImp: false,
             showOther: false,
+            showDeleteModal: false,
         };
         this.menuMarginTop = new Animated.Value(0);
         this.menuMarginBottom = new Animated.Value(0);
-        // this.keyboardDidShowListener = Keyboard.addListener(
-        //     'keyboardDidShow',
-        //     () => { this.setState({ menuShow: false }); },
-        // );
-        // this.keyboardDidHideListener = Keyboard.addListener(
-        //     'keyboardDidHide',
-        //     () => { this.setState({ menuShow: true }); },
-        // );
     }
 
     componentDidMount() {
@@ -147,24 +139,22 @@ turnOffSelectMode = () => {
     setCheckedData([]);
 };
 
+handelDeleteModalOkPress = () => {
+    this.deleteTasks();
+    this.turnOffSelectMode();
+    this.setState({ showDeleteModal: false });
+};
+
+handelDeleteModalCancelPress = () => {
+    this.turnOffSelectMode();
+    this.setState({ showDeleteModal: false });
+};
+
 handleDeletePress = () => {
     const { selectMode } = this.state;
     const { checkedData } = this.props;
     if (selectMode && checkedData.length) {
-        Alert.alert('Delete', 'Are you sure you want to delet this?', [
-            {
-                text: 'Cancel',
-                style: 'cancel',
-                onPress: this.turnOffSelectMode,
-            },
-            {
-                text: 'OK',
-                onPress: () => {
-                    this.deleteTasks();
-                    this.turnOffSelectMode();
-                },
-            },
-        ]);
+        this.setState({ showDeleteModal: true });
     } else if (!checkedData.length && selectMode) {
         this.turnOffSelectMode();
     } else {
@@ -190,6 +180,7 @@ render() {
         showAll,
         showImp,
         showOther,
+        showDeleteModal,
     } = this.state;
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -247,6 +238,10 @@ render() {
             </Animated.View>
 )
           : null}
+          <CustomModal isVisible={showDeleteModal} title="Delete" text="Are you sure you want to delet this?">
+            <Button text="Ok" onPress={this.handelDeleteModalOkPress} />
+            <Button text="Cancel" onPress={this.handelDeleteModalCancelPress} />
+          </CustomModal>
         </View>
       </TouchableWithoutFeedback>
     );

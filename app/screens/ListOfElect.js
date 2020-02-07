@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-    View,
-    Alert,
-} from 'react-native';
+import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 
@@ -14,6 +11,7 @@ import {
     Title,
     Button,
 } from '../common';
+import { CustomModal } from '../combo';
 import { setupCurrentData } from '../actions/data';
 import { setupCheckedData } from '../actions/checkedData';
 import { setupElectData } from '../actions/ElectData';
@@ -24,6 +22,9 @@ class ListOfElect extends Component {
     constructor(props) {
         super(props);
         if (!props.electData) props.setElectData([]);
+        this.state = {
+            showDeleteModal: false,
+        };
     }
 
 handelBackPress = () => {
@@ -66,28 +67,27 @@ resetCheckedTasks = () => {
     setCheckedData([]);
 };
 
+handelDeleteModalOkPress = () => {
+    this.deleteCheckedTasks();
+    this.resetCheckedTasks();
+    this.setState({ showDeleteModal: false });
+};
+
+handelDeleteModalCancelPress = () => {
+    this.resetCheckedTasks();
+    this.setState({ showDeleteModal: false });
+};
+
 handleDeletePress = () => {
     const { checkedData } = this.props;
     if (checkedData.length) {
-        Alert.alert('Delete', 'Are you sure you want to delet this?', [
-            {
-                text: 'Cancel',
-                style: 'cancel',
-                onPress: this.resetCheckedTasks,
-            },
-            {
-                text: 'OK',
-                onPress: () => {
-                    this.deleteCheckedTasks();
-                    this.resetCheckedTasks();
-                },
-            },
-        ]);
+        this.setState({ showDeleteModal: true });
     }
 };
 
 render() {
     const { electData } = this.props;
+    const { showDeleteModal } = this.state;
     return (
       <View style={containerStyle.container}>
         <Title title="Select tasks to add: " />
@@ -116,6 +116,10 @@ render() {
             onPress={this.handleDeletePress}
           />
         </BottomMenu>
+        <CustomModal isVisible={showDeleteModal} title="Delete" text="Are you sure you want to delet this?">
+          <Button text="Ok" onPress={this.handelDeleteModalOkPress} />
+          <Button text="Cancel" onPress={this.handelDeleteModalCancelPress} />
+        </CustomModal>
       </View>
     );
 }
