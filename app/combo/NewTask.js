@@ -181,7 +181,7 @@ updateTask = (id) => {
             </View>
             <View style={newTaskStyle.buttons}>
               <Button text="Cancel" onPress={this.handleCancelOnPress} />
-              <Button text="Save" onPress={this.handleSaveOnPress} />
+              <Button text="Save" onPress={this.handleSaveOnPress} disabled={!(task)} />
             </View>
           </View>
         );

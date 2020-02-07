@@ -8,16 +8,22 @@ const Button = ({
     onPress,
     styles = buttonStyle,
     icon,
+    disabled = false,
 }) => (
   <TouchableOpacity
     onPress={onPress}
     style={
-    [styles.button, icon
+    [styles.button,
+       icon
     ? { backgroundColor: null }
-    : null]
+    : null,
+     disabled
+     ? { opacity: 0.5 }
+     : null]
 }
-      // eslint-disable-next-line indent
-  >
+    disabled={disabled}
+      // eslint-disable-next-line react/jsx-closing-bracket-location
+      >
     {icon}
     {text ? (
       <Text style={[styles.text, icon
@@ -29,12 +35,12 @@ const Button = ({
 ) : null}
   </TouchableOpacity>
 );
-
 Button.propTypes = {
     text: PropTypes.string,
     onPress: PropTypes.func,
     styles: PropTypes.object,
     icon: PropTypes.object,
+    disabled: PropTypes.bool,
 };
 
 export default Button;
