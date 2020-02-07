@@ -34,6 +34,7 @@ class Home extends Component {
             showIsExpiredModal: false,
             showDoneModal: false,
             showCreateModal: false,
+            showCreateNewModal: false,
         };
     }
 
@@ -121,6 +122,24 @@ handelCreatePress = () => {
     this.setState({ showCreateModal: true });
 };
 
+handelCreateNewModalCancelPress = () => {
+    this.setState({ showCreateNewModal: false });
+};
+
+handelCreateNewModalOkPress = () => {
+    setTimeout(() => {
+        this.setState({ showCreateModal: true });
+    }, 1000);
+    const { setupData } = this.props;
+    this.setState({ showCreateNewModal: false });
+    setupData([]);
+    storeData([], GENERAL_DATA);
+};
+
+handelCreateNewPress = () => {
+    this.setState({ showCreateNewModal: true });
+};
+
 handleModalDoneOkPress = () => {
     this.doneTasks();
     this.turnOffSelectMode();
@@ -182,6 +201,7 @@ render() {
         showIsExpiredModal,
         showCreateModal,
         showDoneModal,
+        showCreateNewModal,
     } = this.state;
     return (
       <View style={containerStyle.container}>
@@ -201,19 +221,28 @@ render() {
 
         />
         <BottomMenu>
+          {data.length ? (
+            <Button
+              text="Create"
+              icon={
+                <Icon name="list-unordered" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+            }
+              onPress={this.handelCreateNewPress}
+            />
+) : null}
           {!(data.length)
             ? (
               <Button
                 text="Create list"
                 icon={
-                  <Icon name="pencil" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                  <Icon name="list-unordered" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                 }
                 onPress={this.handelCreatePress}
               />
 )
         : (
           <Button
-            text="Edit list"
+            text="Edit"
             icon={
               <Icon name="pencil" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
             }
@@ -239,6 +268,10 @@ render() {
         <CustomModal isVisible={showDoneModal} title="Done" text="Are you sure you done this?">
           <Button text="Ok" onPress={this.handleModalDoneOkPress} />
           <Button text="Cancel" onPress={this.handleModalDoneCancelPress} />
+        </CustomModal>
+        <CustomModal isVisible={showCreateNewModal} title="Create new list" text="Are you sure you want to create new list? All current tasks will be deleted!">
+          <Button text="Ok" onPress={this.handelCreateNewModalOkPress} />
+          <Button text="Cancel" onPress={this.handelCreateNewModalCancelPress} />
         </CustomModal>
       </View>
     );
