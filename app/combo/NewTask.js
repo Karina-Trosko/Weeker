@@ -4,6 +4,7 @@ import {
     View, Text, Picker,
 } from 'react-native';
 import { connect } from 'react-redux';
+import I18n from '../i18n/i18n';
 
 import { setupCurrentData } from '../actions/data';
 import { setupElectData } from '../actions/ElectData';
@@ -136,7 +137,7 @@ class NewTask extends Component {
         return (
             <View style={[newTaskStyle.container, withKeyboard ? { marginBottom: 0 } : null]}>
                 <Input
-                    placeholder="Enter task..."
+                    placeholder={I18n.t('enterTaskPlaseholder')}
                     onChangeText={this.handleTextChange}
                     value={task}
                 />
@@ -148,7 +149,7 @@ class NewTask extends Component {
                             backgroundColor={colors.$primaryAccentColorVar}
                             underlayColor={colors.$primaryColorVar}
                         />
-                        <Text style={newTaskStyle.text}>important</Text>
+                        <Text style={newTaskStyle.text}>{I18n.t('checkboxImportantLable')}</Text>
                     </View>
                     {(taskFromProps.tesk)
                         ? null
@@ -160,7 +161,7 @@ class NewTask extends Component {
                                     backgroundColor={colors.$primaryAccentColorVar}
                                     underlayColor={colors.$primaryColorVar}
                                 />
-                                <Text style={newTaskStyle.text}>add to elected</Text>
+                                <Text style={newTaskStyle.text}>{I18n.t('checkboxAddToFavorite')}</Text>
                             </View>
                         )}
                     <View style={newTaskStyle.option}>
@@ -177,12 +178,12 @@ class NewTask extends Component {
                                 />
                             ))}
                         </Picker>
-                        <Text style={newTaskStyle.text}>repeat</Text>
+                        <Text style={newTaskStyle.text}>{I18n.t('pickerRepeat')}</Text>
                     </View>
                 </View>
                 <View style={newTaskStyle.buttons}>
-                    <Button text="Cancel" onPress={this.handleCancelOnPress} />
-                    <Button text="Save" onPress={this.handleSaveOnPress} disabled={!task} />
+                    <Button text={I18n.t('buttonCancel')} onPress={this.handleCancelOnPress} />
+                    <Button text={I18n.t('buttonSave')} onPress={this.handleSaveOnPress} disabled={!task} />
                 </View>
             </View>
         );

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
+import I18n from '../i18n/i18n';
 
 import Button from './Button';
 import { listViewSwitchStyle, switchButtonStyle } from '../styles';
@@ -8,19 +9,19 @@ import { listViewSwitchStyle, switchButtonStyle } from '../styles';
 const ListViewSwitch = ({ onPressAll, onPressImportant, onPressOther }) => (
     <View style={listViewSwitchStyle.switch}>
         <Button
-            text="all"
+            text={I18n.t('switchAll')}
             styles={switchButtonStyle}
             onPress={onPressAll}
         />
         <View style={listViewSwitchStyle.separator} />
         <Button
-            text="important"
+            text={I18n.t('switchImportant')}
             styles={switchButtonStyle}
             onPress={onPressImportant}
         />
         <View style={listViewSwitchStyle.separator} />
         <Button
-            text="Other"
+            text={I18n.t('switchOther')}
             styles={switchButtonStyle}
             onPress={onPressOther}
         />

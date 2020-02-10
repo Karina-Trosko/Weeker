@@ -9,6 +9,7 @@ import {
     Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import I18n from '../i18n/i18n';
 
 import {
     ListOfTasks,
@@ -244,9 +245,9 @@ render() {
                         </Animated.View>
                     )
                     : null}
-                <CustomModal isVisible={showDeleteModal} title="Delete" text="Are you sure you want to delet this?">
-                    <Button text="Ok" onPress={this.handelDeleteModalOkPress} />
-                    <Button text="Cancel" onPress={this.handelDeleteModalCancelPress} />
+                <CustomModal isVisible={showDeleteModal} title={I18n.t('deleteModalTitle')} text={I18n.t('deleteModalText')}>
+                    <Button text={I18n.t('buttonOk')} onPress={this.handelDeleteModalOkPress} />
+                    <Button text={I18n.t('buttonCancel')} onPress={this.handelDeleteModalCancelPress} />
                 </CustomModal>
             </View>
         </TouchableWithoutFeedback>

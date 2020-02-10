@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
+import I18n from '../i18n/i18n';
 
 import {
     ListOfTasks,
@@ -88,7 +89,7 @@ render() {
     const { showDeleteModal } = this.state;
     return (
         <View style={containerStyle.container}>
-            <Title title="Select tasks to add: " />
+            <Title title={I18n.t('listOfElectTitle')} />
             <ListOfTasks
                 data={electData}
                 styles={{ marginBottom: indents.marginBottomList }}
@@ -114,9 +115,9 @@ render() {
                     onPress={this.handleDeletePress}
                 />
             </BottomMenu>
-            <CustomModal isVisible={showDeleteModal} title="Delete" text="Are you sure you want to delet this?">
-                <Button text="Ok" onPress={this.handelDeleteModalOkPress} />
-                <Button text="Cancel" onPress={this.handelDeleteModalCancelPress} />
+            <CustomModal isVisible={showDeleteModal} title={I18n.t('deleteModalTitle')} text={I18n.t('deleteModalText')}>
+                <Button text={I18n.t('buttonOk')} onPress={this.handelDeleteModalOkPress} />
+                <Button text={I18n.t('listOfElectTitle')} onPress={this.handelDeleteModalCancelPress} />
             </CustomModal>
         </View>
     );

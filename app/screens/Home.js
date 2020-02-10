@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/Octicons';
+import I18n from '../i18n/i18n';
 
 import {
     ListOfTasks,
@@ -210,7 +211,7 @@ class Home extends Component {
         } = this.state;
         return (
             <View style={containerStyle.container}>
-                <Title title="Tasks for this week: " />
+                <Title title={I18n.t('homeTitle')} />
                 <ListViewSwitch
                     onPressAll={this.handleAllPress}
                     onPressImportant={this.handleImportantPress}
@@ -228,7 +229,7 @@ class Home extends Component {
                 <BottomMenu otherStyle={{ justifyContent: 'space-around' }}>
                     {data.length ? (
                         <Button
-                            text="Create"
+                            text={I18n.t('buttonCreateNew')}
                             icon={
                                 <Icon name="list-unordered" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                             }
@@ -238,7 +239,7 @@ class Home extends Component {
                     {!(data.length)
                         ? (
                             <Button
-                                text="Create list"
+                                text={I18n.t('buttonCreateList')}
                                 icon={
                                     <Icon name="list-unordered" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                                 }
@@ -247,7 +248,7 @@ class Home extends Component {
                         )
                         : (
                             <Button
-                                text="Edit"
+                                text={I18n.t('buttonEdit')}
                                 icon={
                                     <Icon name="pencil" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                                 }
@@ -255,28 +256,28 @@ class Home extends Component {
                             />
                         )}
                     <Button
-                        text="Done"
+                        text={I18n.t('buttonDone')}
                         icon={
                             <Icon name="checklist" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                         }
                         onPress={this.handleDonePress}
                     />
                 </BottomMenu>
-                <CustomModal isVisible={showIsExpiredModal} title="New week started!" text="What do you want to do with previos tasks?">
-                    <Button text="Save" onPress={this.handleModalSave} />
-                    <Button text="Delete" onPress={this.handleModalDelete} />
+                <CustomModal isVisible={showIsExpiredModal} title={I18n.t('newWeekModalTitle')} text={I18n.t('newWeekModalText')}>
+                    <Button text={I18n.t('buttonSave')} onPress={this.handleModalSave} />
+                    <Button text={I18n.t('buttonDelete')} onPress={this.handleModalDelete} />
                 </CustomModal>
-                <CustomModal isVisible={showCreateModal} title="Create new list" text="Do you want to create list of tasks for this week or next?">
-                    <Button text="This" onPress={this.handleThisPress} />
-                    <Button text="Next" onPress={this.handleNextPress} />
+                <CustomModal isVisible={showCreateModal} title={I18n.t('createListModalTitle')} text={I18n.t('createListModalText')}>
+                    <Button text={I18n.t('buttonThis')} onPress={this.handleThisPress} />
+                    <Button text={I18n.t('buttonNext')} onPress={this.handleNextPress} />
                 </CustomModal>
-                <CustomModal isVisible={showDoneModal} title="Done" text="Are you sure you done this?">
-                    <Button text="Ok" onPress={this.handleModalDoneOkPress} />
-                    <Button text="Cancel" onPress={this.handleModalDoneCancelPress} />
+                <CustomModal isVisible={showDoneModal} title={I18n.t('doneModalTitle')} text={I18n.t('doneModalText')}>
+                    <Button text={I18n.t('buttonOk')} onPress={this.handleModalDoneOkPress} />
+                    <Button text={I18n.t('buttonCancel')} onPress={this.handleModalDoneCancelPress} />
                 </CustomModal>
-                <CustomModal isVisible={showCreateNewModal} title="Create new list" text="Are you sure you want to create new list? All current tasks will be deleted!">
-                    <Button text="Ok" onPress={this.handelCreateNewModalOkPress} />
-                    <Button text="Cancel" onPress={this.handelCreateNewModalCancelPress} />
+                <CustomModal isVisible={showCreateNewModal} title={I18n.t('createListModalTitle')} text={I18n.t('createNewListModalText')}>
+                    <Button text={I18n.t('buttonOk')} onPress={this.handelCreateNewModalOkPress} />
+                    <Button text={I18n.t('buttonCancel')} onPress={this.handelCreateNewModalCancelPress} />
                 </CustomModal>
             </View>
         );
