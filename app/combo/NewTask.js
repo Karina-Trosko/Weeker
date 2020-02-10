@@ -35,61 +35,62 @@ class NewTask extends Component {
             };
     }
 
-addToElectedList= (repeat, task, important) => {
-    const { setElectData } = this.props;
-    let { electData } = this.props;
-    if (electData) {
-        const id = electData.length ? String(Number(electData[electData.length - 1].id) + 1) : '0';
-        const newItem = {
-            id, repeat, task, important,
+    addToElectedList = (repeat, task, important) => {
+        const { setElectData } = this.props;
+        let { electData } = this.props;
+        let newElectData = [...electData];
+        if (electData) {
+            const id = newElectData.length ? newElectData[newElectData.length - 1].id + 1 : 0;
+            const newItem = {
+                id, repeat, task, important,
+            };
+            newElectData.push({ ...newItem });
+        } else {
+            newElectData = [];
+            newElectData.push({
+                id: 0, repeat, task, important,
+            });
+        }
+        setElectData(newElectData);
+        storeData(newElectData, ELECT_DATA);
+    };
+
+    createNewTask = () => {
+        const {
+            repeat,
+            task,
+            important,
+            addToElected,
+        } = this.state;
+        const { data } = this.props;
+        if (addToElected) {
+            this.addToElectedList(repeat, task, important);
+        }
+        return {
+            id: data.length ? data[data.length - 1].id + 1 : 0,
+            repeat,
+            task,
+            important,
         };
-        electData.push({ ...newItem });
-    } else {
-        electData = [];
-        electData.push({
-            id: '0', repeat, task, important,
-        });
-    }
-    setElectData(electData);
-    storeData(electData, ELECT_DATA);
-};
-
-createNewTask = () => {
-    const {
-        repeat,
-        task,
-        important,
-        addToElected,
-    } = this.state;
-    const { data } = this.props;
-    if (addToElected) {
-        this.addToElectedList(repeat, task, important);
-    }
-    return {
-        id: data.length ? String(Number(data[data.length - 1].id) + 1) : '0',
-        repeat,
-        task,
-        important,
     };
-};
 
-updateTask = (id) => {
-    const {
-        repeat,
-        task,
-        important,
-        addToElected,
-    } = this.state;
-    if (addToElected) {
-        this.addToElectedList(repeat, task, important);
-    }
-    return {
-        id,
-        repeat,
-        task,
-        important,
+    updateTask = (id) => {
+        const {
+            repeat,
+            task,
+            important,
+            addToElected,
+        } = this.state;
+        if (addToElected) {
+            this.addToElectedList(repeat, task, important);
+        }
+        return {
+            id,
+            repeat,
+            task,
+            important,
+        };
     };
-};
 
     handleSaveOnPress = () => {
         const { task: taskFromProps, setupData, close } = this.props;
@@ -133,57 +134,57 @@ updateTask = (id) => {
 
         const { withKeyboard, task: taskFromProps } = this.props;
         return (
-          <View style={[newTaskStyle.container, withKeyboard ? { marginBottom: 0 } : null]}>
-            <Input
-              placeholder="Enter task..."
-              onChangeText={this.handleTextChange}
-              value={task}
-            />
-            <View style={newTaskStyle.optionContainer}>
-              <View style={newTaskStyle.option}>
-                <Checkbox
-                  selected={important}
-                  onPress={this.handleImportantPress}
-                  backgroundColor={colors.$primaryAccentColorVar}
-                  underlayColor={colors.$primaryColorVar}
+            <View style={[newTaskStyle.container, withKeyboard ? { marginBottom: 0 } : null]}>
+                <Input
+                    placeholder="Enter task..."
+                    onChangeText={this.handleTextChange}
+                    value={task}
                 />
-                <Text style={newTaskStyle.text}>important</Text>
-              </View>
-              {(taskFromProps.tesk)
-              ? null
-              : (
-                <View style={newTaskStyle.option}>
-                  <Checkbox
-                    selected={addToElected}
-                    onPress={this.handleAddToElectedPress}
-                    backgroundColor={colors.$primaryAccentColorVar}
-                    underlayColor={colors.$primaryColorVar}
-                  />
-                  <Text style={newTaskStyle.text}>add to elected</Text>
+                <View style={newTaskStyle.optionContainer}>
+                    <View style={newTaskStyle.option}>
+                        <Checkbox
+                            selected={important}
+                            onPress={this.handleImportantPress}
+                            backgroundColor={colors.$primaryAccentColorVar}
+                            underlayColor={colors.$primaryColorVar}
+                        />
+                        <Text style={newTaskStyle.text}>important</Text>
+                    </View>
+                    {(taskFromProps.tesk)
+                        ? null
+                        : (
+                            <View style={newTaskStyle.option}>
+                                <Checkbox
+                                    selected={addToElected}
+                                    onPress={this.handleAddToElectedPress}
+                                    backgroundColor={colors.$primaryAccentColorVar}
+                                    underlayColor={colors.$primaryColorVar}
+                                />
+                                <Text style={newTaskStyle.text}>add to elected</Text>
+                            </View>
+                        )}
+                    <View style={newTaskStyle.option}>
+                        <Picker
+                            style={newTaskStyle.picker}
+                            selectedValue={repeat}
+                            onValueChange={(value) => this.setState({ repeat: value })}
+                        >
+                            {this.repeats.map((value) => (
+                                <Picker.Item
+                                    label={value}
+                                    value={value}
+                                    key={value}
+                                />
+                            ))}
+                        </Picker>
+                        <Text style={newTaskStyle.text}>repeat</Text>
+                    </View>
                 </View>
-)}
-              <View style={newTaskStyle.option}>
-                <Picker
-                  style={newTaskStyle.picker}
-                  selectedValue={repeat}
-                  onValueChange={(value) => this.setState({ repeat: value })}
-                >
-                  {this.repeats.map((value) => (
-                    <Picker.Item
-                      label={value}
-                      value={value}
-                      key={value}
-                    />
-))}
-                </Picker>
-                <Text style={newTaskStyle.text}>repeat</Text>
-              </View>
+                <View style={newTaskStyle.buttons}>
+                    <Button text="Cancel" onPress={this.handleCancelOnPress} />
+                    <Button text="Save" onPress={this.handleSaveOnPress} disabled={!task} />
+                </View>
             </View>
-            <View style={newTaskStyle.buttons}>
-              <Button text="Cancel" onPress={this.handleCancelOnPress} />
-              <Button text="Save" onPress={this.handleSaveOnPress} disabled={!(task)} />
-            </View>
-          </View>
         );
     }
 }

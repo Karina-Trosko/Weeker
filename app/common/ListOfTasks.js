@@ -54,30 +54,29 @@ render() {
         selectMode,
         checkedData,
     } = this.props;
-    // const { selectMode } = this.state;
     return (
-      <KeyboardAwareScrollView style={styles}>
-        <FlatList
-          data={this.filterData() || []}
-          renderItem={({ item }) => (
-            <ListItem
-              data={item}
-              onLongPress={() => {
-                OnLongPressTask();
-}}
-              selectMode={selectMode}
-              noSelectedItems={!(checkedData.length)}
-              onPress={() => {
-  this.handleOnPress(item);
-                OnPressTask();
-}}
-              OnCheckboxPress={this.handleCheckboxPress}
+        <KeyboardAwareScrollView style={styles}>
+            <FlatList
+                data={this.filterData() || []}
+                renderItem={({ item }) => (
+                    <ListItem
+                        data={item}
+                        onLongPress={() => {
+                            OnLongPressTask();
+                        }}
+                        selectMode={selectMode}
+                        noSelectedItems={!(checkedData.length)}
+                        onPress={() => {
+                            this.handleOnPress(item);
+                            OnPressTask();
+                        }}
+                        OnCheckboxPress={this.handleCheckboxPress}
+                    />
+                )}
+                keyExtractor={(item) => String(item.id)}
+                extraData={[selectMode, checkedData ? !(checkedData.length) : null]}
             />
-)}
-          keyExtractor={(item) => item.id}
-          extraData={[selectMode, checkedData ? !(checkedData.length) : null]}
-        />
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
     );
 }
 }

@@ -5,13 +5,13 @@ import { TextInput } from 'react-native';
 import { newTaskStyle, colors } from '../styles';
 
 const Input = ({ onChangeText, value, placeholder }) => (
-  <TextInput
-    onChangeText={onChangeText}
-    value={value}
-    style={newTaskStyle.input}
-    placeholder={placeholder}
-    placeholderTextColor={colors.$primaryColorVar}
-  />
+    <TextInput
+        onChangeText={onChangeText}
+        value={value}
+        style={newTaskStyle.input}
+        placeholder={placeholder}
+        placeholderTextColor={colors.$primaryColorVar}
+    />
 );
 
 Input.propTypes = {

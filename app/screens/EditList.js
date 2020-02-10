@@ -189,67 +189,67 @@ render() {
         showDeleteModal,
     } = this.state;
     return (
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={containerStyle.container}>
-          {menuShow ? (
-            <Animated.View style={{ marginTop: this.menuMarginTop }}>
-              <ListViewSwitch
-                onPressAll={this.handleAllPress}
-                onPressImportant={this.handleImportantPress}
-                onPressOther={this.handleOtherPress}
-              />
-            </Animated.View>
-) : null}
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={containerStyle.container}>
+                {menuShow ? (
+                    <Animated.View style={{ marginTop: this.menuMarginTop }}>
+                        <ListViewSwitch
+                            onPressAll={this.handleAllPress}
+                            onPressImportant={this.handleImportantPress}
+                            onPressOther={this.handleOtherPress}
+                        />
+                    </Animated.View>
+                ) : null}
 
-          <ListOfTasks
-            data={data}
-            styles={addPress ? { marginBottom: 10 } : { marginBottom: indents.marginBottomList }}
-            OnPressTask={this.handleTaskPress}
-            OnLongPressTask={this.handleTaskLongPress}
-            selectMode={selectMode}
-            showAll={showAll}
-            showImp={showImp}
-            showOther={showOther}
-          />
-          {addPress ? <NewTask close={this.handleTaskPress} withKeyboard={!menuShow} /> : null}
-          {menuShow
-          ? (
-            <Animated.View style={{ marginBottom: this.menuMarginBottom }}>
-              <BottomMenu otherStyle={{ justifyContent: 'space-around' }}>
-                <Button
-                  icon={
-                    <Icon name="arrow-left" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
-                  }
-                  onPress={this.handelBackPress}
+                <ListOfTasks
+                    data={data}
+                    styles={addPress ? { marginBottom: 10 } : { marginBottom: indents.marginBottomList }}
+                    OnPressTask={this.handleTaskPress}
+                    OnLongPressTask={this.handleTaskLongPress}
+                    selectMode={selectMode}
+                    showAll={showAll}
+                    showImp={showImp}
+                    showOther={showOther}
                 />
-                <Button
-                  icon={
-                    <Icon name="plus" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
-                }
-                  onPress={this.handleAddPress}
-                />
-                <Button
-                  icon={
-                    <Icon name="trash-o" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
-                }
-                  onPress={this.handleDeletePress}
-                />
-                <Button
-                  icon={
-                    <Icon name="star" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
-                }
-                  onPress={this.handleStarPress}
-                />
-              </BottomMenu>
-            </Animated.View>
-)
-          : null}
-          <CustomModal isVisible={showDeleteModal} title="Delete" text="Are you sure you want to delet this?">
-            <Button text="Ok" onPress={this.handelDeleteModalOkPress} />
-            <Button text="Cancel" onPress={this.handelDeleteModalCancelPress} />
-          </CustomModal>
-        </View>
-      </TouchableWithoutFeedback>
+                {addPress ? <NewTask close={this.handleTaskPress} withKeyboard={!menuShow} /> : null}
+                {menuShow
+                    ? (
+                        <Animated.View style={{ marginBottom: this.menuMarginBottom }}>
+                            <BottomMenu otherStyle={{ justifyContent: 'space-around' }}>
+                                <Button
+                                    icon={
+                                        <Icon name="arrow-left" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                                    }
+                                    onPress={this.handelBackPress}
+                                />
+                                <Button
+                                    icon={
+                                        <Icon name="plus" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                                    }
+                                    onPress={this.handleAddPress}
+                                />
+                                <Button
+                                    icon={
+                                        <Icon name="trash-o" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                                    }
+                                    onPress={this.handleDeletePress}
+                                />
+                                <Button
+                                    icon={
+                                        <Icon name="star" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                                    }
+                                    onPress={this.handleStarPress}
+                                />
+                            </BottomMenu>
+                        </Animated.View>
+                    )
+                    : null}
+                <CustomModal isVisible={showDeleteModal} title="Delete" text="Are you sure you want to delet this?">
+                    <Button text="Ok" onPress={this.handelDeleteModalOkPress} />
+                    <Button text="Cancel" onPress={this.handelDeleteModalCancelPress} />
+                </CustomModal>
+            </View>
+        </TouchableWithoutFeedback>
     );
 }
 }

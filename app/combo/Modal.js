@@ -11,17 +11,17 @@ const CustomModal = ({
     children,
     isVisible,
 }) => (
-  <View>
-    <Modal isVisible={isVisible}>
-      <View style={customModalStyle.container}>
-        <Text style={customModalStyle.title}>{title}</Text>
-        <Text style={customModalStyle.text}>{text}</Text>
-        <View style={customModalStyle.buttons}>
-          {children}
-        </View>
-      </View>
-    </Modal>
-  </View>
+    <View>
+        <Modal isVisible={isVisible}>
+            <View style={customModalStyle.container}>
+                <Text style={customModalStyle.title}>{title}</Text>
+                <Text style={customModalStyle.text}>{text}</Text>
+                <View style={customModalStyle.buttons}>
+                    {children}
+                </View>
+            </View>
+        </Modal>
+    </View>
 );
 
 CustomModal.propTypes = {

@@ -21,7 +21,7 @@ import { storeData, ELECT_DATA, GENERAL_DATA } from '../services/localstorage';
 class ListOfElect extends Component {
     constructor(props) {
         super(props);
-        if (!props.electData) props.setElectData([]);
+        if (!props.electData) { props.setElectData([]); }
         this.state = {
             showDeleteModal: false,
         };
@@ -34,13 +34,12 @@ handelBackPress = () => {
 
 addCheckedTasks = () => {
     const { setupData, data, checkedData } = this.props;
-    let id = data.length ? String(Number(data[data.length - 1].id) + 1) : '0';
+    let id = data.length ? data[data.length - 1].id + 1 : 0;
 
     checkedData.forEach((item) => {
         const newItem = item;
         newItem.id = id;
         id++;
-        id = String(id);
         data.push({ ...newItem });
     });
     const newData = data.map((item) => item);
@@ -55,8 +54,7 @@ handleAddPress = () => {
 
 deleteCheckedTasks = () => {
     const { setElectData, electData, checkedData } = this.props;
-    const newData = electData.filter((item) => (
-        !checkedData.some((val) => (val.id === item.id))));
+    const newData = electData.filter((item) => !checkedData.some((val) => (val.id === item.id)));
 
     setElectData(newData);
     storeData(newData, ELECT_DATA);
@@ -89,38 +87,38 @@ render() {
     const { electData } = this.props;
     const { showDeleteModal } = this.state;
     return (
-      <View style={containerStyle.container}>
-        <Title title="Select tasks to add: " />
-        <ListOfTasks
-          data={electData}
-          styles={{ marginBottom: indents.marginBottomList }}
-          selectMode
-        />
-        <BottomMenu otherStyle={{ justifyContent: 'space-around' }}>
-          <Button
-            icon={
-              <Icon name="arrow-left" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
-                  }
-            onPress={this.handelBackPress}
-          />
-          <Button
-            icon={
-              <EntypoIcon name="add-to-list" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
-                }
-            onPress={this.handleAddPress}
-          />
-          <Button
-            icon={
-              <Icon name="trash-o" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
-                }
-            onPress={this.handleDeletePress}
-          />
-        </BottomMenu>
-        <CustomModal isVisible={showDeleteModal} title="Delete" text="Are you sure you want to delet this?">
-          <Button text="Ok" onPress={this.handelDeleteModalOkPress} />
-          <Button text="Cancel" onPress={this.handelDeleteModalCancelPress} />
-        </CustomModal>
-      </View>
+        <View style={containerStyle.container}>
+            <Title title="Select tasks to add: " />
+            <ListOfTasks
+                data={electData}
+                styles={{ marginBottom: indents.marginBottomList }}
+                selectMode
+            />
+            <BottomMenu otherStyle={{ justifyContent: 'space-around' }}>
+                <Button
+                    icon={
+                        <Icon name="arrow-left" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                    }
+                    onPress={this.handelBackPress}
+                />
+                <Button
+                    icon={
+                        <EntypoIcon name="add-to-list" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                    }
+                    onPress={this.handleAddPress}
+                />
+                <Button
+                    icon={
+                        <Icon name="trash-o" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                    }
+                    onPress={this.handleDeletePress}
+                />
+            </BottomMenu>
+            <CustomModal isVisible={showDeleteModal} title="Delete" text="Are you sure you want to delet this?">
+                <Button text="Ok" onPress={this.handelDeleteModalOkPress} />
+                <Button text="Cancel" onPress={this.handelDeleteModalCancelPress} />
+            </CustomModal>
+        </View>
     );
 }
 }

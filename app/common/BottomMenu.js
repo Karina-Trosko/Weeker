@@ -5,9 +5,9 @@ import { View } from 'react-native';
 import { bottomMenuStyle } from '../styles';
 
 const BottomMenu = ({ children, otherStyle }) => (
-  <View style={[bottomMenuStyle.bottomMenu, otherStyle]}>
-    {children}
-  </View>
+    <View style={[bottomMenuStyle.bottomMenu, otherStyle]}>
+        {children}
+    </View>
 );
 
 BottomMenu.propTypes = {

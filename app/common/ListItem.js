@@ -35,34 +35,34 @@ render() {
         onLongPress,
         onPress,
         selectMode,
-    } = this.props;
+    } = this.props;// :{task}
     const { task, important, repeat } = data;
     const { selected } = this.state;
     return (
-      <TouchableOpacity onLongPress={onLongPress} onPress={onPress} style={listStyle.listItemStyle}>
-        {(repeat && (Number(repeat) > 1))
-        ? <RepeatIcon color={colors.$primaryAccentColorVar} size={35} repeat={repeat} />
-        : null}
-        <Text style={[listStyle.task, (important
-          ? { color: colors.$primaryAccentColorVar }
-          : null)]}
-        >
-          {task}
-        </Text>
-        {selectMode ? (
-          <Checkbox
-            selected={selected}
-            backgroundColor={colors.$primaryAccentColorVar}
-            underlayColor={colors.$primaryColorVar}
-            onPress={
-              () => {
-              this.handleCheckboxPress(data);
-}
-}
-          />
-) : null}
+        <TouchableOpacity onLongPress={onLongPress} onPress={onPress} style={listStyle.listItemStyle}>
+            {(repeat && (Number(repeat) > 1))
+                ? <RepeatIcon color={colors.$primaryAccentColorVar} size={35} repeat={repeat} />
+                : null}
+            <Text style={[listStyle.task, (important
+                ? { color: colors.$primaryAccentColorVar }
+                : null)]}
+            >
+                {task}
+            </Text>
+            {selectMode ? (
+                <Checkbox
+                    selected={selected}
+                    backgroundColor={colors.$primaryAccentColorVar}
+                    underlayColor={colors.$primaryColorVar}
+                    onPress={
+                        () => {
+                            this.handleCheckboxPress(data);
+                        }
+                    }
+                />
+            ) : null}
 
-      </TouchableOpacity>
+        </TouchableOpacity>
     );
 }
 }

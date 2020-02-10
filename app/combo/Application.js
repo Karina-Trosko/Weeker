@@ -48,7 +48,7 @@ class Application extends Component {
             return null;
         }
         return (
-          <Navigator />
+            <Navigator />
         );
     }
 }
