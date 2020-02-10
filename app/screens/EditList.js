@@ -85,6 +85,8 @@ handleAllPress = () => {
         showImp: false,
         showOther: false,
     });
+    const { setCheckedData } = this.props;
+    setCheckedData([]);
 };
 
 handleImportantPress = () => {
@@ -93,6 +95,8 @@ handleImportantPress = () => {
         showImp: true,
         showOther: false,
     });
+    const { setCheckedData } = this.props;
+    setCheckedData([]);
 };
 
 handleOtherPress = () => {
@@ -101,6 +105,8 @@ handleOtherPress = () => {
         showImp: false,
         showOther: true,
     });
+    const { setCheckedData } = this.props;
+    setCheckedData([]);
 };
 
 handleAddPress = () => {
