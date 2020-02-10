@@ -60,11 +60,17 @@ handleModalDelete = () => {
     const { setupData } = this.props;
     setupData([]);
     storeData([], GENERAL_DATA);
-    this.setState({ showIsExpiredModal: false });
+    this.setState({
+        showIsExpiredModal: false,
+        showCreateModal: true,
+    });
 };
 
 handleModalSave = () => {
-    this.setState({ showIsExpiredModal: false });
+    this.setState({
+        showIsExpiredModal: false,
+        showCreateModal: true,
+    });
 };
 
     turnOffSelectMode = () => {
@@ -226,7 +232,7 @@ render() {
           showOther={showOther}
 
         />
-        <BottomMenu>
+        <BottomMenu otherStyle={{ justifyContent: 'space-around' }}>
           {data.length ? (
             <Button
               text="Create"
