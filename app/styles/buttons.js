@@ -21,7 +21,7 @@ export const buttonStyle = EStyleSheet.create({
         backgroundColor: '$primaryColor',
     },
     text: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: '600',
         marginHorizontal: 10,
         color: '$primaryWhite',

@@ -10,12 +10,16 @@ const CustomModal = ({
     text,
     children,
     isVisible,
+    additionalChildren,
 }) => (
     <View>
         <Modal isVisible={isVisible}>
             <View style={customModalStyle.container}>
                 <Text style={customModalStyle.title}>{title}</Text>
                 <Text style={customModalStyle.text}>{text}</Text>
+                {additionalChildren
+                    ? <View style={customModalStyle.additionalChildren}>{additionalChildren}</View>
+                    : null }
                 <View style={customModalStyle.buttons}>
                     {children}
                 </View>
@@ -29,6 +33,7 @@ CustomModal.propTypes = {
     text: PropTypes.string,
     children: PropTypes.any,
     isVisible: PropTypes.bool,
+    additionalChildren: PropTypes.any,
 };
 
 export default CustomModal;

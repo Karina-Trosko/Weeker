@@ -6,11 +6,13 @@ import {
     GENERAL_DATA,
     ELECT_DATA,
     getStoredData,
+    LANG,
 } from '../services/localstorage';
 import { setupCurrentData } from '../actions/data';
 import { setupElectData } from '../actions/ElectData';
 import { setupCheckedData } from '../actions/checkedData';
 import Navigator from '../config/routes';
+import { changeLanguage } from '../i18n/i18n';
 
 class Application extends Component {
     constructor(props) {
@@ -40,6 +42,8 @@ class Application extends Component {
         setElectData(Array.isArray(electData) ? electData : []);
 
         setCheckedData([]);
+        const lang = await getStoredData(LANG);
+        if (lang) { changeLanguage(lang); }
     };
 
     render() {

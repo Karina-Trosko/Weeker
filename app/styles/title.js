@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 const styles = EStyleSheet.create({
     container: {
-        paddingVertical: 20,
+        paddingVertical: 15,
         paddingHorizontal: 15,
         backgroundColor: '$primaryWhite',
     },

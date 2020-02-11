@@ -27,6 +27,9 @@ const styles = EStyleSheet.create({
         marginVertical: 5,
         textAlign: 'center',
     },
+    additionalChildren: {
+        alignSelf: 'center',
+    },
 });
 
 export default styles;

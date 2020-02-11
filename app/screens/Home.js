@@ -23,6 +23,7 @@ import {
     EXPIRATION_DATE,
     storeData,
     getStoredData,
+    LANG,
 } from '../services/localstorage';
 import { CustomModal } from '../combo';
 
@@ -49,8 +50,13 @@ class Home extends Component {
     }
 
     async componentWillMount() {
-        this.setState({ showIsExpiredModal: await this.isExpire() });
+        if (await this.isNew()) { this.setState({ showCreateModal: true }); } else { this.setState({ showIsExpiredModal: await this.isExpire() }); }
     }
+
+isNew = async () => {
+    const date = new Date(await getStoredData(EXPIRATION_DATE));
+    return Boolean(date);
+};
 
     isExpire = async () => {
         const date = new Date(await getStoredData(EXPIRATION_DATE));
@@ -213,6 +219,7 @@ class Home extends Component {
     handleLangModalSave = () => {
         this.setState({ showLangModal: false });
         const { lang } = this.state;
+        storeData(lang, LANG);
         changeLanguage(lang);
     };
 
@@ -316,20 +323,25 @@ class Home extends Component {
                     <Button text={I18n.t('buttonOk')} onPress={this.handelCreateNewModalOkPress} />
                     <Button text={I18n.t('buttonCancel')} onPress={this.handelCreateNewModalCancelPress} />
                 </CustomModal>
-                <CustomModal isVisible={showLangModal} title={I18n.t('languageModalTitle')}>
-                    <Picker
-                        style={{ width: 100 }}
-                        selectedValue={lang}
-                        onValueChange={(value) => this.setState({ lang: value })}
-                    >
-                        {this.languages.map((value) => (
-                            <Picker.Item
-                                label={value}
-                                value={value}
-                                key={value}
-                            />
-                        ))}
-                    </Picker>
+                <CustomModal
+                    isVisible={showLangModal}
+                    title={I18n.t('languageModalTitle')}
+                    additionalChildren={(
+                        <Picker
+                            style={{ width: 100, color: colors.$primaryColorVar }}
+                            selectedValue={lang}
+                            onValueChange={(value) => this.setState({ lang: value })}
+                        >
+                            {this.languages.map((value) => (
+                                <Picker.Item
+                                    label={value}
+                                    value={value}
+                                    key={value}
+                                />
+                            ))}
+                        </Picker>
+                    )}
+                >
                     <Button text={I18n.t('buttonSave')} onPress={this.handleLangModalSave} />
                     <Button text={I18n.t('buttonCancel')} onPress={this.handleLangModalCancel} />
                 </CustomModal>

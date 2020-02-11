@@ -32,6 +32,7 @@ const styles = EStyleSheet.create({
     },
     picker: {
         width: 100,
+        color: '$primaryColor',
     },
     container: {
         marginBottom: indents.marginBottomList,
