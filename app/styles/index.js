@@ -3,7 +3,7 @@ import { colors, indents } from './variables';
 import listStyle from './list';
 import bottomMenuStyle from './bottomMenu';
 import listViewSwitchStyle from './listViewSwitch';
-import { switchButtonStyle, buttonStyle } from './buttons';
+import { switchButtonStyle, buttonStyle, buttonWithIconStyle } from './buttons';
 import titleStyle from './title';
 import repeatIconStyle from './icons';
 import checkboxStyle from './checkbox';
@@ -16,6 +16,7 @@ export {
     listViewSwitchStyle,
     switchButtonStyle,
     buttonStyle,
+    buttonWithIconStyle,
     titleStyle,
     repeatIconStyle,
     checkboxStyle,

@@ -27,4 +27,6 @@ export default {
     buttonThis: 'Текущую',
     buttonNext: 'Следующую',
     listOfElectTitle: 'Выберите задания, чтобы добавить: ',
+    languageModalTitle: 'Выберите язык: ',
+    buttonLanguage: 'Язык',
 };

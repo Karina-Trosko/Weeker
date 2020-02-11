@@ -27,3 +27,18 @@ export const buttonStyle = EStyleSheet.create({
         color: '$primaryWhite',
     },
 });
+
+export const buttonWithIconStyle = EStyleSheet.create({
+    button: {
+        padding: 3,
+        marginHorizontal: 5,
+        backgroundColor: '$primaryWhite',
+        alignItems: 'center',
+    },
+    text: {
+        fontSize: 14,
+        fontWeight: '300',
+        marginHorizontal: 5,
+        color: '$primaryColor',
+    },
+});

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, Picker } from 'react-native';
 import Icon from 'react-native-vector-icons/Octicons';
-import I18n from '../i18n/i18n';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import { getLanguages } from 'react-native-i18n';
+import I18n, { changeLanguage } from '../i18n/i18n';
 
 import {
     ListOfTasks,
@@ -14,7 +16,7 @@ import {
 } from '../common';
 import { setupCurrentData } from '../actions/data';
 import { setupElectData } from '../actions/ElectData';
-import { containerStyle, colors } from '../styles';
+import { containerStyle, colors, buttonWithIconStyle } from '../styles';
 import { setupCheckedData } from '../actions/checkedData';
 import {
     GENERAL_DATA,
@@ -25,6 +27,8 @@ import {
 import { CustomModal } from '../combo';
 
 class Home extends Component {
+    languages=['en', 'ru'];
+
     constructor(props) {
         super(props);
         this.state = {
@@ -36,7 +40,12 @@ class Home extends Component {
             showDoneModal: false,
             showCreateModal: false,
             showCreateNewModal: false,
+            showLangModal: false,
+            lang: 'en',
         };
+        getLanguages().then((languages) => {
+            this.setState({ lang: languages[0] });
+        });
     }
 
     async componentWillMount() {
@@ -197,6 +206,20 @@ class Home extends Component {
         setCheckedData([]);
     };
 
+    handleLanguagePress = () => {
+        this.setState({ showLangModal: true });
+    };
+
+    handleLangModalSave = () => {
+        this.setState({ showLangModal: false });
+        const { lang } = this.state;
+        changeLanguage(lang);
+    };
+
+    handleLangModalCancel = () => {
+        this.setState({ showLangModal: false });
+    };
+
     render() {
         const { data } = this.props;
         const {
@@ -208,6 +231,8 @@ class Home extends Component {
             showCreateModal,
             showDoneModal,
             showCreateNewModal,
+            showLangModal,
+            lang,
         } = this.state;
         return (
             <View style={containerStyle.container}>
@@ -230,6 +255,7 @@ class Home extends Component {
                     {data.length ? (
                         <Button
                             text={I18n.t('buttonCreateNew')}
+                            styles={buttonWithIconStyle}
                             icon={
                                 <Icon name="list-unordered" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                             }
@@ -240,6 +266,7 @@ class Home extends Component {
                         ? (
                             <Button
                                 text={I18n.t('buttonCreateList')}
+                                styles={buttonWithIconStyle}
                                 icon={
                                     <Icon name="list-unordered" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                                 }
@@ -249,6 +276,7 @@ class Home extends Component {
                         : (
                             <Button
                                 text={I18n.t('buttonEdit')}
+                                styles={buttonWithIconStyle}
                                 icon={
                                     <Icon name="pencil" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                                 }
@@ -257,10 +285,19 @@ class Home extends Component {
                         )}
                     <Button
                         text={I18n.t('buttonDone')}
+                        styles={buttonWithIconStyle}
                         icon={
                             <Icon name="checklist" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                         }
                         onPress={this.handleDonePress}
+                    />
+                    <Button
+                        text={I18n.t('buttonLanguage')}
+                        styles={buttonWithIconStyle}
+                        icon={
+                            <EntypoIcon name="language" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
+                        }
+                        onPress={this.handleLanguagePress}
                     />
                 </BottomMenu>
                 <CustomModal isVisible={showIsExpiredModal} title={I18n.t('newWeekModalTitle')} text={I18n.t('newWeekModalText')}>
@@ -278,6 +315,23 @@ class Home extends Component {
                 <CustomModal isVisible={showCreateNewModal} title={I18n.t('createListModalTitle')} text={I18n.t('createNewListModalText')}>
                     <Button text={I18n.t('buttonOk')} onPress={this.handelCreateNewModalOkPress} />
                     <Button text={I18n.t('buttonCancel')} onPress={this.handelCreateNewModalCancelPress} />
+                </CustomModal>
+                <CustomModal isVisible={showLangModal} title={I18n.t('languageModalTitle')}>
+                    <Picker
+                        style={{ width: 100 }}
+                        selectedValue={lang}
+                        onValueChange={(value) => this.setState({ lang: value })}
+                    >
+                        {this.languages.map((value) => (
+                            <Picker.Item
+                                label={value}
+                                value={value}
+                                key={value}
+                            />
+                        ))}
+                    </Picker>
+                    <Button text={I18n.t('buttonSave')} onPress={this.handleLangModalSave} />
+                    <Button text={I18n.t('buttonCancel')} onPress={this.handleLangModalCancel} />
                 </CustomModal>
             </View>
         );

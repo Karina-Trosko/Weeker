@@ -27,4 +27,6 @@ export default {
     buttonThis: 'This',
     buttonNext: 'Next',
     listOfElectTitle: 'Select tasks to add: ',
+    languageModalTitle: 'Select language: ',
+    buttonLanguage: 'Language',
 };
