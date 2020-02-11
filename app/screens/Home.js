@@ -50,13 +50,14 @@ class Home extends Component {
     }
 
     async componentWillMount() {
-        if (await this.isNew()) { this.setState({ showCreateModal: true }); } else { this.setState({ showIsExpiredModal: await this.isExpire() }); }
+        if (await this.ThereIsData()) { this.setState({ showIsExpiredModal: await this.isExpire() }); } else { this.setState({ showCreateModal: true }); }
     }
 
-isNew = async () => {
-    const date = new Date(await getStoredData(EXPIRATION_DATE));
-    return Boolean(date);
-};
+    ThereIsData = async () => {
+        const date = await getStoredData(EXPIRATION_DATE);
+        console.log(date);
+        return Boolean(date);
+    };
 
     isExpire = async () => {
         const date = new Date(await getStoredData(EXPIRATION_DATE));
