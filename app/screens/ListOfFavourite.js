@@ -15,14 +15,14 @@ import {
 import { CustomModal } from '../combo';
 import { setupCurrentData } from '../actions/data';
 import { setupCheckedData } from '../actions/checkedData';
-import { setupElectData } from '../actions/ElectData';
-import { containerStyle, colors, indents } from '../styles';
-import { storeData, ELECT_DATA, GENERAL_DATA } from '../services/localstorage';
+import { setupFavouriteData } from '../actions/FavouriteData';
+import { containerStyle, colors, indents, buttonWithIconStyle } from '../styles';
+import { storeData, FAVOURITE_DATA, GENERAL_DATA } from '../services/localstorage';
 
-class ListOfElect extends Component {
+class ListOfFavourite extends Component {
     constructor(props) {
         super(props);
-        if (!props.electData) { props.setElectData([]); }
+        if (!props.FavouriteData) { props.setFavouriteData([]); }
         this.state = {
             showDeleteModal: false,
         };
@@ -35,17 +35,17 @@ handelBackPress = () => {
 
 addCheckedTasks = () => {
     const { setupData, data, checkedData } = this.props;
-    let id = data.length ? data[data.length - 1].id + 1 : 0;
+    const newData = [...data];
+    let id = newData.length ? newData[newData.length - 1].id + 1 : 1;
 
     checkedData.forEach((item) => {
-        const newItem = item;
+        const newItem = { ...item };
         newItem.id = id;
         id++;
-        data.push({ ...newItem });
+        newData.push({ ...newItem });
     });
-    const newData = data.map((item) => item);
-    setupData(newData);
-    storeData(newData, GENERAL_DATA);
+    setupData(newData.map((item) => item));
+    storeData(newData.map((item) => item), GENERAL_DATA);
     this.resetCheckedTasks();
 };
 
@@ -54,11 +54,11 @@ handleAddPress = () => {
 };
 
 deleteCheckedTasks = () => {
-    const { setElectData, electData, checkedData } = this.props;
-    const newData = electData.filter((item) => !checkedData.some((val) => (val.id === item.id)));
+    const { setFavouriteData, FavouriteData, checkedData } = this.props;
+    const newData = FavouriteData.filter((item) => !checkedData.some((val) => (val.id === item.id)));
 
-    setElectData(newData);
-    storeData(newData, ELECT_DATA);
+    setFavouriteData(newData);
+    storeData(newData, FAVOURITE_DATA);
 };
 
 resetCheckedTasks = () => {
@@ -85,30 +85,36 @@ handleDeletePress = () => {
 };
 
 render() {
-    const { electData } = this.props;
+    const { FavouriteData } = this.props;
     const { showDeleteModal } = this.state;
     return (
         <View style={containerStyle.container}>
-            <Title title={I18n.t('listOfElectTitle')} />
+            <Title title={I18n.t('listOfFavouriteTitle')} />
             <ListOfTasks
-                data={electData}
+                data={FavouriteData}
                 styles={{ marginBottom: indents.marginBottomList }}
-                selectMode
+                selectedMode
             />
             <BottomMenu otherStyle={{ justifyContent: 'space-around' }}>
                 <Button
+                    text={I18n.t('buttonBack')}
+                    styles={buttonWithIconStyle}
                     icon={
                         <Icon name="arrow-left" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                     }
                     onPress={this.handelBackPress}
                 />
                 <Button
+                    text={I18n.t('buttonAdd')}
+                    styles={buttonWithIconStyle}
                     icon={
                         <EntypoIcon name="add-to-list" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                     }
                     onPress={this.handleAddPress}
                 />
                 <Button
+                    text={I18n.t('buttonDelete')}
+                    styles={buttonWithIconStyle}
                     icon={
                         <Icon name="trash-o" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                     }
@@ -117,18 +123,18 @@ render() {
             </BottomMenu>
             <CustomModal isVisible={showDeleteModal} title={I18n.t('deleteModalTitle')} text={I18n.t('deleteModalText')}>
                 <Button text={I18n.t('buttonOk')} onPress={this.handelDeleteModalOkPress} />
-                <Button text={I18n.t('listOfElectTitle')} onPress={this.handelDeleteModalCancelPress} />
+                <Button text={I18n.t('buttonCancel')} onPress={this.handelDeleteModalCancelPress} />
             </CustomModal>
         </View>
     );
 }
 }
 
-ListOfElect.propTypes = {
+ListOfFavourite.propTypes = {
     setupData: PropTypes.func,
-    setElectData: PropTypes.func,
+    setFavouriteData: PropTypes.func,
     data: PropTypes.array,
-    electData: PropTypes.array,
+    FavouriteData: PropTypes.array,
     checkedData: PropTypes.array,
     setCheckedData: PropTypes.func,
     navigation: PropTypes.object,
@@ -141,18 +147,18 @@ const mapDispatchToProps = (dispatch) => ({
     setCheckedData: (data) => {
         dispatch(setupCheckedData(data));
     },
-    setElectData: (data) => {
-        dispatch(setupElectData(data));
+    setFavouriteData: (data) => {
+        dispatch(setupFavouriteData(data));
     },
 });
 
 const mapStateToProps = (state) => {
-    const { data, checkedData, electData } = state.data;
+    const { data, checkedData, FavouriteData } = state.data;
     return {
         data,
         checkedData,
-        electData,
+        FavouriteData,
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListOfElect);
+export default connect(mapStateToProps, mapDispatchToProps)(ListOfFavourite);

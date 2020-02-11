@@ -15,7 +15,7 @@ import {
     Button,
 } from '../common';
 import { setupCurrentData } from '../actions/data';
-import { setupElectData } from '../actions/ElectData';
+import { setupFavouriteData } from '../actions/FavouriteData';
 import { containerStyle, colors, buttonWithIconStyle } from '../styles';
 import { setupCheckedData } from '../actions/checkedData';
 import {
@@ -33,7 +33,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectMode: false,
+            selectedMode: false,
             showAll: true,
             showImp: false,
             showOther: false,
@@ -55,7 +55,6 @@ class Home extends Component {
 
     ThereIsData = async () => {
         const date = await getStoredData(EXPIRATION_DATE);
-        console.log(date);
         return Boolean(date);
     };
 
@@ -85,9 +84,9 @@ class Home extends Component {
         });
     };
 
-    turnOffSelectMode = () => {
+    turnOffselectedMode = () => {
         const { setCheckedData } = this.props;
-        this.setState({ selectMode: false });
+        this.setState({ selectedMode: false });
         setCheckedData([]);
     };
 
@@ -158,29 +157,29 @@ class Home extends Component {
 
     handleModalDoneOkPress = () => {
         this.doneTasks();
-        this.turnOffSelectMode();
+        this.turnOffselectedMode();
         this.setState({ showDoneModal: false });
     };
 
     handleModalDoneCancelPress = () => {
-        this.turnOffSelectMode();
+        this.turnOffselectedMode();
         this.setState({ showDoneModal: false });
     };
 
     handleDonePress = () => {
-        const { selectMode } = this.state;
+        const { selectedMode } = this.state;
         const { checkedData } = this.props;
-        if (selectMode && checkedData.length) {
+        if (selectedMode && checkedData.length) {
             this.setState({ showDoneModal: true });
-        } else if (!checkedData.length && selectMode) {
-            this.setState({ selectMode: false });
+        } else if (!checkedData.length && selectedMode) {
+            this.setState({ selectedMode: false });
         } else {
-            this.setState({ selectMode: true });
+            this.setState({ selectedMode: true });
         }
     };
 
     handleLongPress = () => {
-        this.setState({ selectMode: true });
+        this.setState({ selectedMode: true });
     };
 
     handleAllPress = () => {
@@ -231,7 +230,7 @@ class Home extends Component {
     render() {
         const { data } = this.props;
         const {
-            selectMode,
+            selectedMode,
             showAll,
             showImp,
             showOther,
@@ -253,7 +252,7 @@ class Home extends Component {
                 <ListOfTasks
                     data={data}
                     OnLongPressTask={this.handleLongPress}
-                    selectMode={selectMode}
+                    selectedMode={selectedMode}
                     showAll={showAll}
                     showImp={showImp}
                     showOther={showOther}
@@ -366,8 +365,8 @@ const mapDispatchToProps = (dispatch) => ({
     setCheckedData: (data) => {
         dispatch(setupCheckedData(data));
     },
-    setElectData: (data) => {
-        dispatch(setupElectData(data));
+    setFavouriteData: (data) => {
+        dispatch(setupFavouriteData(data));
     },
 });
 

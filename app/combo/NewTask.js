@@ -7,14 +7,14 @@ import { connect } from 'react-redux';
 import I18n from '../i18n/i18n';
 
 import { setupCurrentData } from '../actions/data';
-import { setupElectData } from '../actions/ElectData';
+import { setupFavouriteData } from '../actions/FavouriteData';
 import {
     Input,
     Checkbox,
     Button,
 } from '../common';
 import { newTaskStyle, colors } from '../styles';
-import { storeData, ELECT_DATA, GENERAL_DATA } from '../services/localstorage';
+import { storeData, FAVOURITE_DATA, GENERAL_DATA } from '../services/localstorage';
 
 class NewTask extends Component {
     repeats = ['1', '2', '3', '4', '5', '6', '7'];
@@ -32,28 +32,28 @@ class NewTask extends Component {
                 repeat: '1',
                 task: '',
                 important: false,
-                addToElected: false,
+                addToFavourite: false,
             };
     }
 
-    addToElectedList = (repeat, task, important) => {
-        const { setElectData } = this.props;
-        let { electData } = this.props;
-        let newElectData = [...electData];
-        if (electData) {
-            const id = newElectData.length ? newElectData[newElectData.length - 1].id + 1 : 0;
+    addToFavouriteList = (repeat, task, important) => {
+        const { setFavouriteData } = this.props;
+        let { FavouriteData } = this.props;
+        let newFavouriteData = [...FavouriteData];
+        if (FavouriteData) {
+            const id = newFavouriteData.length ? newFavouriteData[newFavouriteData.length - 1].id + 1 : 1;
             const newItem = {
                 id, repeat, task, important,
             };
-            newElectData.push({ ...newItem });
+            newFavouriteData.push({ ...newItem });
         } else {
-            newElectData = [];
-            newElectData.push({
-                id: 0, repeat, task, important,
+            newFavouriteData = [];
+            newFavouriteData.push({
+                id: 1, repeat, task, important,
             });
         }
-        setElectData(newElectData);
-        storeData(newElectData, ELECT_DATA);
+        setFavouriteData(newFavouriteData);
+        storeData(newFavouriteData, FAVOURITE_DATA);
     };
 
     createNewTask = () => {
@@ -61,14 +61,14 @@ class NewTask extends Component {
             repeat,
             task,
             important,
-            addToElected,
+            addToFavourite,
         } = this.state;
         const { data } = this.props;
-        if (addToElected) {
-            this.addToElectedList(repeat, task, important);
+        if (addToFavourite) {
+            this.addToFavouriteList(repeat, task, important);
         }
         return {
-            id: data.length ? data[data.length - 1].id + 1 : 0,
+            id: data.length ? data[data.length - 1].id + 1 : 1,
             repeat,
             task,
             important,
@@ -80,10 +80,10 @@ class NewTask extends Component {
             repeat,
             task,
             important,
-            addToElected,
+            addToFavourite,
         } = this.state;
-        if (addToElected) {
-            this.addToElectedList(repeat, task, important);
+        if (addToFavourite) {
+            this.addToFavouriteList(repeat, task, important);
         }
         return {
             id,
@@ -96,6 +96,7 @@ class NewTask extends Component {
     handleSaveOnPress = () => {
         const { task: taskFromProps, setupData, close } = this.props;
         let { data } = this.props;
+
         if (taskFromProps.id) {
             data = data.map((item) => ((item.id === taskFromProps.id)
                 ? this.updateTask(item.id) : item));
@@ -123,14 +124,14 @@ class NewTask extends Component {
         this.setState({ important: !important });
     };
 
-    handleAddToElectedPress = () => {
-        const { addToElected } = this.state;
-        this.setState({ addToElected: !addToElected });
+    handleAddToFavouritePress = () => {
+        const { addToFavourite } = this.state;
+        this.setState({ addToFavourite: !addToFavourite });
     };
 
     render() {
         const {
-            repeat, important, addToElected, task,
+            repeat, important, addToFavourite, task,
         } = this.state;
 
         const { withKeyboard, task: taskFromProps } = this.props;
@@ -156,8 +157,8 @@ class NewTask extends Component {
                         : (
                             <View style={newTaskStyle.option}>
                                 <Checkbox
-                                    selected={addToElected}
-                                    onPress={this.handleAddToElectedPress}
+                                    selected={addToFavourite}
+                                    onPress={this.handleAddToFavouritePress}
                                     backgroundColor={colors.$primaryAccentColorVar}
                                     underlayColor={colors.$primaryColorVar}
                                 />
@@ -193,9 +194,9 @@ class NewTask extends Component {
 NewTask.propTypes = {
     task: PropTypes.object,
     data: PropTypes.array,
-    electData: PropTypes.array,
+    FavouriteData: PropTypes.array,
     setupData: PropTypes.func,
-    setElectData: PropTypes.func,
+    setFavouriteData: PropTypes.func,
     close: PropTypes.func,
     withKeyboard: PropTypes.bool,
 };
@@ -204,19 +205,19 @@ const mapDispatchToProps = (dispatch) => ({
     setupData: (data) => {
         dispatch(setupCurrentData(data));
     },
-    setElectData: (data) => {
-        dispatch(setupElectData(data));
+    setFavouriteData: (data) => {
+        dispatch(setupFavouriteData(data));
     },
 });
 
 const mapStateToProps = (state) => {
-    const { data, electData } = state.data;
+    const { data, FavouriteData } = state.data;
     const { task } = state.currentTask;
 
     return {
         data,
         task,
-        electData,
+        FavouriteData,
     };
 };
 

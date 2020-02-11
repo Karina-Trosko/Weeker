@@ -1,6 +1,6 @@
 import { SETUP_DATA } from '../actions/data';
 import { SETUP_CHECKED_DATA } from '../actions/checkedData';
-import { SETUP_ELECT_DATA } from '../actions/ElectData';
+import { SETUP_FAVOURITE_DATA } from '../actions/FavouriteData';
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
@@ -14,10 +14,10 @@ const reducer = (state = {}, action) => {
                 ...state,
                 checkedData: action.checkedData,
             };
-        case SETUP_ELECT_DATA:
+        case SETUP_FAVOURITE_DATA:
             return {
                 ...state,
-                electData: action.electData,
+                FavouriteData: action.FavouriteData,
             };
 
         default: return state;

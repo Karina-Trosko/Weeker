@@ -21,7 +21,7 @@ import { setupCurrentData } from '../actions/data';
 import { setupCurrentTask } from '../actions/currentTask';
 import { setupCheckedData } from '../actions/checkedData';
 import { NewTask, CustomModal } from '../combo';
-import { containerStyle, colors, indents } from '../styles';
+import { containerStyle, colors, indents, buttonWithIconStyle } from '../styles';
 import { storeData, GENERAL_DATA } from '../services/localstorage';
 
 const ANIMATION_DURATION = 400;
@@ -31,7 +31,7 @@ class EditList extends Component {
         super(props);
         this.state = {
             addPress: false,
-            selectMode: false,
+            selectedMode: false,
             menuShow: true,
             showAll: true,
             showImp: false,
@@ -51,11 +51,11 @@ class EditList extends Component {
     keyboardShow = () => {
         Animated.parallel([
             Animated.timing(this.menuMarginTop, {
-                toValue: -50,
+                toValue: -55,
                 duration: ANIMATION_DURATION,
             }),
             Animated.timing(this.menuMarginBottom, {
-                toValue: -50,
+                toValue: -55,
                 duration: ANIMATION_DURATION,
             }),
         ]).start();
@@ -111,22 +111,22 @@ handleOtherPress = () => {
 };
 
 handleAddPress = () => {
-    const { addPress, selectMode } = this.state;
-    if (!selectMode) {
+    const { addPress, selectedMode } = this.state;
+    if (!selectedMode) {
         this.setState({ addPress: !addPress });
         const { setupTask } = this.props;
         setupTask({
             repeat: '1',
             task: '',
             important: false,
-            addToElected: false,
+            addToFavourite: false,
         });
     }
 };
 
 handleTaskPress = () => {
-    const { addPress, selectMode } = this.state;
-    if (!selectMode) {
+    const { addPress, selectedMode } = this.state;
+    if (!selectedMode) {
         this.setState({ addPress: !addPress });
     }
 };
@@ -140,49 +140,49 @@ deleteTasks = () => {
     storeData(newData, GENERAL_DATA);
 };
 
-turnOffSelectMode = () => {
+turnOffselectedMode = () => {
     const { setCheckedData } = this.props;
-    this.setState({ selectMode: false });
+    this.setState({ selectedMode: false });
     setCheckedData([]);
 };
 
 handelDeleteModalOkPress = () => {
     this.deleteTasks();
-    this.turnOffSelectMode();
+    this.turnOffselectedMode();
     this.setState({ showDeleteModal: false });
 };
 
 handelDeleteModalCancelPress = () => {
-    this.turnOffSelectMode();
+    this.turnOffselectedMode();
     this.setState({ showDeleteModal: false });
 };
 
 handleDeletePress = () => {
-    const { selectMode } = this.state;
+    const { selectedMode } = this.state;
     const { checkedData } = this.props;
-    if (selectMode && checkedData.length) {
+    if (selectedMode && checkedData.length) {
         this.setState({ showDeleteModal: true });
-    } else if (!checkedData.length && selectMode) {
-        this.turnOffSelectMode();
+    } else if (!checkedData.length && selectedMode) {
+        this.turnOffselectedMode();
     } else {
-        this.setState({ selectMode: true });
+        this.setState({ selectedMode: true });
     }
 };
 
 handleStarPress= () => {
     const { navigation } = this.props;
-    navigation.navigate('ListOfElect');
+    navigation.navigate('ListOfFavourite');
 };
 
 handleTaskLongPress = () => {
-    this.setState({ selectMode: true });
+    this.setState({ selectedMode: true });
 };
 
 render() {
     const { data } = this.props;
     const {
         addPress,
-        selectMode,
+        selectedMode,
         menuShow,
         showAll,
         showImp,
@@ -207,7 +207,7 @@ render() {
                     styles={addPress ? { marginBottom: 10 } : { marginBottom: indents.marginBottomList }}
                     OnPressTask={this.handleTaskPress}
                     OnLongPressTask={this.handleTaskLongPress}
-                    selectMode={selectMode}
+                    selectedMode={selectedMode}
                     showAll={showAll}
                     showImp={showImp}
                     showOther={showOther}
@@ -218,24 +218,32 @@ render() {
                         <Animated.View style={{ marginBottom: this.menuMarginBottom }}>
                             <BottomMenu otherStyle={{ justifyContent: 'space-around' }}>
                                 <Button
+                                    text={I18n.t('buttonBack')}
+                                    styles={buttonWithIconStyle}
                                     icon={
                                         <Icon name="arrow-left" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                                     }
                                     onPress={this.handelBackPress}
                                 />
                                 <Button
+                                    text={I18n.t('buttonAdd')}
+                                    styles={buttonWithIconStyle}
                                     icon={
                                         <Icon name="plus" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                                     }
                                     onPress={this.handleAddPress}
                                 />
                                 <Button
+                                    text={I18n.t('buttonDelete')}
+                                    styles={buttonWithIconStyle}
                                     icon={
                                         <Icon name="trash-o" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                                     }
                                     onPress={this.handleDeletePress}
                                 />
                                 <Button
+                                    text={I18n.t('buttonFavourite')}
+                                    styles={buttonWithIconStyle}
                                     icon={
                                         <Icon name="star" color={colors.$primaryAccentColorVar} size={30} resizeMode="contain" />
                                     }

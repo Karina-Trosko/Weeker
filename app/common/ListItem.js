@@ -15,7 +15,7 @@ class ListItem extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.selectMode || nextProps.noSelectedItems) {
+        if (!nextProps.selectedMode || nextProps.noselectedItems) {
             this.setState({
                 selected: false,
             });
@@ -34,7 +34,7 @@ render() {
         data,
         onLongPress,
         onPress,
-        selectMode,
+        selectedMode,
     } = this.props;// :{task}
     const { task, important, repeat } = data;
     const { selected } = this.state;
@@ -49,7 +49,7 @@ render() {
             >
                 {task}
             </Text>
-            {selectMode ? (
+            {selectedMode ? (
                 <Checkbox
                     selected={selected}
                     backgroundColor={colors.$primaryAccentColorVar}
@@ -72,8 +72,8 @@ ListItem.propTypes = {
     onLongPress: PropTypes.func,
     onPress: PropTypes.func,
     OnCheckboxPress: PropTypes.func,
-    selectMode: PropTypes.bool,
-    noSelectedItems: PropTypes.bool,
+    selectedMode: PropTypes.bool,
+    noselectedItems: PropTypes.bool,
 };
 
 export default ListItem;

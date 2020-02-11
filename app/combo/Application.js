@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
     GENERAL_DATA,
-    ELECT_DATA,
+    FAVOURITE_DATA,
     getStoredData,
     LANG,
 } from '../services/localstorage';
 import { setupCurrentData } from '../actions/data';
-import { setupElectData } from '../actions/ElectData';
+import { setupFavouriteData } from '../actions/FavouriteData';
 import { setupCheckedData } from '../actions/checkedData';
 import Navigator from '../config/routes';
 import { changeLanguage } from '../i18n/i18n';
@@ -31,15 +31,15 @@ class Application extends Component {
     loadData = async () => {
         const {
             setupData,
-            setElectData,
+            setFavouriteData,
             setCheckedData,
         } = this.props;
 
         const data = await getStoredData(GENERAL_DATA);
         setupData(Array.isArray(data) ? data : []);
 
-        const electData = await getStoredData(ELECT_DATA);
-        setElectData(Array.isArray(electData) ? electData : []);
+        const FavouriteData = await getStoredData(FAVOURITE_DATA);
+        setFavouriteData(Array.isArray(FavouriteData) ? FavouriteData : []);
 
         setCheckedData([]);
         const lang = await getStoredData(LANG);
@@ -58,15 +58,15 @@ class Application extends Component {
 }
 Application.propTypes = {
     setupData: PropTypes.func,
-    setElectData: PropTypes.func,
+    setFavouriteData: PropTypes.func,
     setCheckedData: PropTypes.func,
 };
 const mapDispatchToProps = (dispatch) => ({
     setupData: (data) => {
         dispatch(setupCurrentData(data));
     },
-    setElectData: (data) => {
-        dispatch(setupElectData(data));
+    setFavouriteData: (data) => {
+        dispatch(setupFavouriteData(data));
     },
     setCheckedData: (data) => {
         dispatch(setupCheckedData(data));

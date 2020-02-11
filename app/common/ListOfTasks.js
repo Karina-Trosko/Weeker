@@ -51,7 +51,7 @@ render() {
         styles = { marginBottom: indents.marginBottomList },
         OnPressTask = () => {},
         OnLongPressTask = () => {},
-        selectMode,
+        selectedMode,
         checkedData,
     } = this.props;
     return (
@@ -64,8 +64,8 @@ render() {
                         onLongPress={() => {
                             OnLongPressTask();
                         }}
-                        selectMode={selectMode}
-                        noSelectedItems={!(checkedData.length)}
+                        selectedMode={selectedMode}
+                        noselectedItems={!(checkedData.length)}
                         onPress={() => {
                             this.handleOnPress(item);
                             OnPressTask();
@@ -74,7 +74,7 @@ render() {
                     />
                 )}
                 keyExtractor={(item) => String(item.id)}
-                extraData={[selectMode, checkedData ? !(checkedData.length) : null]}
+                extraData={[selectedMode, checkedData ? !(checkedData.length) : null]}
             />
         </KeyboardAwareScrollView>
     );
@@ -89,7 +89,7 @@ ListOfTasks.propTypes = {
     styles: PropTypes.object,
     OnPressTask: PropTypes.func,
     OnLongPressTask: PropTypes.func,
-    selectMode: PropTypes.bool,
+    selectedMode: PropTypes.bool,
     showAll: PropTypes.bool,
     showImp: PropTypes.bool,
     showOther: PropTypes.bool,

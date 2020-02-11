@@ -26,7 +26,10 @@ export default {
     buttonDelete: 'Удалить',
     buttonThis: 'Текущую',
     buttonNext: 'Следующую',
-    listOfElectTitle: 'Выберите задания, чтобы добавить: ',
+    listOfFavouriteTitle: 'Выберите задания, чтобы добавить: ',
     languageModalTitle: 'Выберите язык: ',
     buttonLanguage: 'Язык',
+    buttonBack: 'Назад',
+    buttonAdd: 'Добавить',
+    buttonFavourite: 'Избранное',
 };

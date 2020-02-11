@@ -2,7 +2,7 @@ import { createStackNavigator } from 'react-navigation';
 
 import Home from '../screens/Home';
 import EditList from '../screens/EditList';
-import ListOfElect from '../screens/ListOfElect';
+import ListOfFavourite from '../screens/ListOfFavourite';
 
 const HomeStack = createStackNavigator({
     Home: {
@@ -17,8 +17,8 @@ const HomeStack = createStackNavigator({
             header: () => null,
         },
     },
-    ListOfElect: {
-        screen: ListOfElect,
+    ListOfFavourite: {
+        screen: ListOfFavourite,
         navigationOptions: {
             header: () => null,
         },

@@ -26,7 +26,10 @@ export default {
     buttonDelete: 'Delete',
     buttonThis: 'This',
     buttonNext: 'Next',
-    listOfElectTitle: 'Select tasks to add: ',
-    languageModalTitle: 'Select language: ',
+    listOfFavouriteTitle: 'selecte tasks to add: ',
+    languageModalTitle: 'selecte language: ',
     buttonLanguage: 'Language',
+    buttonBack: 'Back',
+    buttonAdd: 'Add',
+    buttonFavourite: 'Favourite',
 };

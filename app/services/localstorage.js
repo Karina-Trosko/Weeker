@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
 export const GENERAL_DATA = '@GeneralData';
-export const ELECT_DATA = '@ElectData';
+export const FAVOURITE_DATA = '@FavouriteData';
 export const EXPIRATION_DATE = '@ExpirationDate';
 export const LANG = '@Lang';
 
